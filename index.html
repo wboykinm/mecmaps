@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+
+<title>MECMaps</title>
+
+<script src="ext/jquery.min.js"></script>
+<script src="ext/modestmaps.min.js"></script>
+<script src="ext/wax/wax.mm.js"></script>
+<script src="ext/wax/wax.ext.js"></script>
+<script src="ext/easey.js"></script>
+<script src="ext/mmg.js"></script>
+<script src="map1.js"></script>
+<link href='css/controls.css' rel='stylesheet' type='text/css'/>
+<link href='css/style.css' rel='stylesheet' type='text/css'/>
+<link href='http://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+
+</head>
+
+<body>
+  <div id="sidebar">
+  <div class="middle"><a href="http://www.programmemec.ma/index_en.html" target="_blank"><img src="http://dai.geosprocket.com/mecexplore/img/mec_logo_clear.png"/></a></div>
+    <p>Our goals for this project in water-constrained Morocco are simple: reduce poverty, create jobs, and upgrade the workforce.</p><hr>
+    <h2>Themes</h2>
+    <ul class="layers">
+      <li><a data-control="layer" href="#commune" class="first">Commune Summary</a><br />
+      <li><a data-control="layer" href="#ag" >Crop Surveys</a><br />
+      <li><a data-control="layer" href="#irrig" >Irrigation</a><br />
+      <li><a data-control="layer" href="#business" >Business Climate</a><br />
+      <li><a data-control="layer" href="#dai">Other MEC Activities</a><br />
+    </ul>
+    <div data-control='geocode' id="search">
+      <form class="geocode">
+        <input placeholder='Search for a location' type="text">
+        <input type='submit' />
+        <div id='geocode-error'></div>
+      </form>
+    </div><br />    
+  </div>
+  <div id="map" class="map"> 
+ 
+        <script type="text/javascript">
+    
+        // Make a new map in the #map element
+        var main = Map('map', {
+            // Specify the MapBox API url
+            api: 'http://a.tiles.mapbox.com/v3/dai.map-jfzz54yc.jsonp',
+            center: {
+                lat: 34.7399851, // Intial center point and zoom level.
+                lon: -2.57080,      // To find coordinates and zoom levels
+                zoom: 9                    // try: http://www.getlatlon.com
+            },
+            zoomRange: [2, 15],             // Limit zooming on the map to these levels
+            features: [                     // Map features (see readme.md)
+                'zoomwheel',
+                'movetips',
+                'tooltips',
+                'zoombox',
+                'zoompan',
+                'share'
+              ]
+        });
+        
+        main.layers({
+          
+          ag: { api: 'http://a.tiles.mapbox.com/v3/landplanner.mec_ag2.jsonp',
+            center: { zoom: 12, ease: 500 }
+          },
+          commune: { api: 'http://a.tiles.mapbox.com/v3/landplanner.commune1.jsonp' },
+          irrig: { api: 'http://a.tiles.mapbox.com/v3/landplanner.irrig3.jsonp' },
+          business: { api: 'http://a.tiles.mapbox.com/v3/landplanner.mec_bus1.jsonp',
+          center: {                   // Optionally reposition the map.
+                    lat: 33.97069,   // New center point and zoom level
+                    lon: -5.19653,   // for the map. Specific either
+                    zoom: 7,               // lat and lon, zoom, or both.
+                    ease: 500               // Optional time to animimate moving
+                }                           // the map in milliseconds.
+          },
+          dai: { api: 'http://a.tiles.mapbox.com/v3/landplanner.dai1.jsonp' }
+        });
+    </script>
+</div>
+<style>
+#header {
+  position: fixed;
+  top:0;
+  width: 100%;
+  background: rgba(28,36,43,0.9);
+  height: 80px;
+  z-index:1;
+  font-size:16px;
+  line-height: 40px;
+  vertical-align: middle;
+  color: #C8C6C2;
+  }
+
+.middle {
+    margin-left: 5px;
+    margin-top: 80px;
+}
+.content2 {
+    position:absolute;
+    display:inline;
+    /*padding:5px;*/
+    width:500px;
+    text-align:left;
+    margin-top:-80px;
+    z-index:4;
+}​
+</style>
+<div id="header">
+        <h1 style="padding-left:10px;">MECMaps: Visualizing the Morocco Economic Competitiveness Project (MEC) </h1>
+        <!--<div class="brandaid"><a href="http://www.usaid.gov/" target="_blank"></a></div>-->
+</div>
+</body>
+</html>

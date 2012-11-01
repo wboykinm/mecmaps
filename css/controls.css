@@ -1,0 +1,219 @@
+a.wax-fullscreen {
+  /* TODO: sprite-based fullscreen button */
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 99999;
+  }
+
+a.zoomer {
+  text-decoration:none;
+  position:absolute;
+  /*background-color:#444;*/
+  color:white;
+  line-height:25px;
+  font-size:25px;
+  font-weight:bold;
+  z-index:99999;
+  text-align:center;
+  text-size:20px;
+  width:28px;
+  height:28px;
+  }
+
+  a.zoomin {
+    text-decoration:none;
+    text-size:20px;
+    left:5px;
+    top:85px;
+    background-color:#888;
+    border-color:#202020;
+    -webkit-border-radius:50%;
+          border-radius:50%;
+    }
+
+  a.zoomout {
+    text-decoration:none;
+    text-size:20px;
+    left:40px;
+    top:85px;
+    background-color:#888;
+    border-color:#202020;
+    -webkit-border-radius:50%;
+          border-radius:50%;
+    }
+  a.zoomer:hover {
+    background-color:#666;
+    text-decoration:none;
+    }
+  
+  a.zoomdisabled {
+    background-color:#333;
+    }
+
+
+.wax-fullscreen-map {
+  position:fixed !important;
+  width:auto !important;
+  height:auto !important;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:999999999999;
+  }
+
+.wax-tooltip {
+  z-index:999999;
+  position:absolute;
+  background:white;
+  color:black;
+  border: 2px solid #2da0ef;
+  padding:10px;
+  left:10px;
+  right:auto;
+  top:120px;
+  max-width:300px;
+  opacity:0.95;
+  -webkit-transition:opacity .9s;
+  -moz-transition:opacity .9s;
+  }
+
+.wax-movetip {
+  position:absolute;
+  z-index:999999;
+  background:#333;
+  color:#fff;
+  padding:10px;
+  max-width:300px;
+}
+
+
+.wax-tooltip.hide { opacity:0; }
+
+.wax-tooltip .close {
+  display:block;
+  border-radius: 30px;
+  color: white;
+  width:18px;
+  height:18px;
+  background: #2da0ef;
+  position:absolute;
+  text-align:center;
+  top:-9px;
+  right:-9px;
+  }
+
+.wax-mobile-body .wax-tooltip {
+  position:absolute;
+  top:50px;
+  }
+
+.zoombox-box,
+.boxselector-box {
+  margin:0;
+  padding:0;
+  border:1px dashed #888;
+  background: rgba(255,255,255,0.25);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  display: none;
+  }
+
+.zoombox-box-container,
+.boxselector-box-container,
+.pointselector-box-container {
+  margin:0;
+  padding:0;
+  position:absolute;
+  background: url(blank.gif);
+  top:0;
+  left:0;
+  }
+
+.wax-point-div {
+  width:10px;
+  height:10px;
+  margin-left:-5px;
+  margin-top:-5px;
+  background:#fff;
+  border:1px solid #333;
+  -webkit-border-radius:5px;
+  }
+
+div.wax-attribution {
+  position:absolute;
+  background-color:rgba(255, 255, 255, 0.7);
+  color:#333;
+  font-size:11px;
+  line-height:20px;
+  z-index:99999;
+  text-align:center;
+  padding:0 5px;
+  bottom:0;
+  left:0;
+  }
+
+.wax-attribution.wax-g {
+  left:65px;
+  bottom:4px;
+  background:transparent;
+  }
+
+.wax-latlngtooltip {
+  position:absolute;
+  background:#caedf4;
+  padding:3px;
+  border:1px solid #75c1d0;
+  border-radius:3px;
+}
+
+#search {
+    position:absolute;
+    bottom: 10px;
+    float: none;
+    margin-left: 10px;
+    text-align: center;
+    /*left: 5px;*/
+    background: #111;
+    height: 30px;
+    margin-bottom: 20px;
+    z-index:1;
+    }
+
+form.geocode input[type=text] {
+    font-size: .85em;
+    color: #333;
+    height: 18px;
+    width: 200px;
+    display: block;
+    float: left;
+    padding: 5px;
+    margin: 0;
+    border: 1px solid  #ccc;
+    }
+    
+form.geocode input[type=submit] {
+    background: #2da0ef url(../img/search.png) no-repeat -0px -0px;
+    text-indent: -9999px;
+    width: 30px;
+    height: 30px;
+    display: block;
+    border: none;
+    margin: 0;
+    padding: 0;
+    float: left;
+    cursor: pointer;
+    }
+    
+form.geocode input[type=submit]:hover {
+    background-color:#333; 
+    }
+
+form.geocode input[type=submit]:active { 
+    background-color:#000; 
+    }
+	
