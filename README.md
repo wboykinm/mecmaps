@@ -8,3 +8,6 @@ Check out [the wiki](https://github.com/wboykinm/mecmaps/wiki) for the site arch
 MECMaps is a portal for exploring the work of the Morocco Economic Competitiveness Project; page source is available in this repository. Also available here in the ```utils``` directory are tools for:
 * Parsing data from project-hosted MySQL to GeoJSON
 * Incorporating tiled maps from CartoDB and Mapbox servers
+
+***Mockup view as of 12/29/12***
+![alt text](http://farm9.staticflickr.com/8364/8319983633_a3e5ff3fea_z.jpg "Site Mockup")
