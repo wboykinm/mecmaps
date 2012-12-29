@@ -8,5 +8,5 @@ MECMaps is a portal for exploring the work of the Morocco Economic Competitivene
 * Parsing data from project-hosted MySQL to GeoJSON
 * Incorporating tiled maps from CartoDB and Mapbox servers
 
-##Mockup view as of 12/29/12 <hr>
+<hr>
 ![alt text](http://farm9.staticflickr.com/8364/8319983633_a3e5ff3fea_z.jpg "Site Mockup")
