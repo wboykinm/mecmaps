@@ -1,7 +1,6 @@
-# MECMaps
-=======
+# MECMaps <hr>
 
-**Code Base for DAI MEC Mapping portals**
+##Code Base for DAI MEC Mapping portals
 
 Check out [the wiki](https://github.com/wboykinm/mecmaps/wiki) for the site architecture and planning process. All tools developed in the service of MECMaps will be available here. 
 
@@ -9,5 +8,5 @@ MECMaps is a portal for exploring the work of the Morocco Economic Competitivene
 * Parsing data from project-hosted MySQL to GeoJSON
 * Incorporating tiled maps from CartoDB and Mapbox servers
 
-***Mockup view as of 12/29/12***
+##Mockup view as of 12/29/12 <hr>
 ![alt text](http://farm9.staticflickr.com/8364/8319983633_a3e5ff3fea_z.jpg "Site Mockup")
