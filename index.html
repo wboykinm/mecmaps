@@ -1,117 +1,289 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
+  
+  <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="http://geosprocket.com/assets/bootstrap/css/bootstrap-cosmo.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
+    <![endif]-->
 
-<title>MECMaps</title>
+  
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+    #footer {
+        position:absolute;
+        bottom:0px;
+        left:0px;
+        right:0px;
+        background:#fff;
+        z-index:999;
+        overflow:auto;
+        /*height:160px;*/
+        padding:15px;
+        opacity:0.9;
+  
+    }
+    .leaflet-control-zoom {
+        top: 50px;
+    }
+    .modal {
+        z-index:99999;
+    }
+    div.cartodb-popup h4 {
+        color: #333;
+    }
+    </style>
 
-<script src="ext/jquery.min.js"></script>
-<script src="ext/modestmaps.min.js"></script>
-<script src="ext/wax/wax.mm.js"></script>
-<script src="ext/wax/wax.ext.js"></script>
-<script src="ext/easey.js"></script>
-<script src="ext/mmg.js"></script>
-<script src="map1.js"></script>
-<link href='css/controls.css' rel='stylesheet' type='text/css'/>
-<link href='css/style.css' rel='stylesheet' type='text/css'/>
-<link href='http://fonts.googleapis.com/css?family=Oswald&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-
-</head>
-
-<body>
-  <div id="sidebar">
-  <div class="middle"><a href="http://www.programmemec.ma/index_en.html" target="_blank"><img src="http://dai.geosprocket.com/mecexplore/img/mec_logo_clear.png"/></a></div>
-    <p>Our goals for this project in water-constrained Morocco are simple: reduce poverty, create jobs, and upgrade the workforce.</p><hr>
-    <h2>Themes</h2>
-    <ul class="layers">
-      <li><a data-control="layer" href="#commune" class="first">Commune Summary</a><br />
-      <li><a data-control="layer" href="#ag" >Crop Surveys</a><br />
-      <li><a data-control="layer" href="#irrig" >Irrigation</a><br />
-      <li><a data-control="layer" href="#business" >Business Climate</a><br />
-      <li><a data-control="layer" href="#dai">Other MEC Activities</a><br />
-    </ul>
-    <div data-control='geocode' id="search">
-      <form class="geocode">
-        <input placeholder='Search for a location' type="text">
-        <input type='submit' />
-        <div id='geocode-error'></div>
-      </form>
-    </div><br />    
-  </div>
-  <div id="map" class="map"> 
- 
-        <script type="text/javascript">
     
-        // Make a new map in the #map element
-        var main = Map('map', {
-            // Specify the MapBox API url
-            api: 'http://a.tiles.mapbox.com/v3/dai.map-jfzz54yc.jsonp',
-            center: {
-                lat: 34.7399851, // Intial center point and zoom level.
-                lon: -2.57080,      // To find coordinates and zoom levels
-                zoom: 9                    // try: http://www.getlatlon.com
-            },
-            zoomRange: [2, 15],             // Limit zooming on the map to these levels
-            features: [                     // Map features (see readme.md)
-                'zoomwheel',
-                'movetips',
-                'tooltips',
-                'zoombox',
-                'zoompan',
-                'share'
-              ]
-        });
-        
-        main.layers({
-          
-          ag: { api: 'http://a.tiles.mapbox.com/v3/landplanner.mec_ag2.jsonp',
-            center: { zoom: 12, ease: 500 }
-          },
-          commune: { api: 'http://a.tiles.mapbox.com/v3/landplanner.commune1.jsonp' },
-          irrig: { api: 'http://a.tiles.mapbox.com/v3/landplanner.irrig3.jsonp' },
-          business: { api: 'http://a.tiles.mapbox.com/v3/landplanner.mec_bus1.jsonp',
-          center: {                   // Optionally reposition the map.
-                    lat: 33.97069,   // New center point and zoom level
-                    lon: -5.19653,   // for the map. Specific either
-                    zoom: 7,               // lat and lon, zoom, or both.
-                    ease: 500               // Optional time to animimate moving
-                }                           // the map in milliseconds.
-          },
-          dai: { api: 'http://a.tiles.mapbox.com/v3/landplanner.dai1.jsonp' }
-        });
-    </script>
-</div>
-<style>
-#header {
-  position: fixed;
-  top:0;
-  width: 100%;
-  background: rgba(28,36,43,0.9);
-  height: 80px;
-  z-index:1;
-  font-size:16px;
-  line-height: 40px;
-  vertical-align: middle;
-  color: #C8C6C2;
-  }
+  </head>
+    
+  <body>
 
-.middle {
-    margin-left: 5px;
-    margin-top: 80px;
-}
-.content2 {
-    position:absolute;
-    display:inline;
-    /*padding:5px;*/
-    width:500px;
-    text-align:left;
-    margin-top:-80px;
-    z-index:4;
-}â€‹
-</style>
-<div id="header">
-        <h1 style="padding-left:10px;">MECMaps: Visualizing the Morocco Economic Competitiveness Project (MEC) </h1>
-        <!--<div class="brandaid"><a href="http://www.usaid.gov/" target="_blank"></a></div>-->
-</div>
-</body>
+
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a href="#myModal" role="button" data-toggle="modal" class="brand">MECCartes</a>
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">MECCartes Base de Donnees</h3>
+      </div>
+      <div class="modal-body">
+        <p>Collectees sur pres de cinq ans, cette information sur le projet MEC a ete mis a disposition par le biais d'un partenariat avec l'Agence Americaine pour le Developpement International, la DAI et le Gouvernement du Maroc. Le dossier complet est disponible en telechargement ici (ZIP 50 MB):</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary">Telecharger</button>
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li><a href="#">Affaires</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Hydrologie <b class="caret"></b></a>
+                  <ul id="layer_selector" class="dropdown-menu">
+                    <li><a href="#" data="null">Irrigation</a></li>
+                    <li><a href="#" data="null">Eaux Souterraines</a></li>
+                  </ul>
+                </li>            
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Agriculture <b class="caret"></b></a>
+                  <ul id="layer_selector" class="dropdown-menu">
+                    <li><a href="#" data="tout" >Tout</a></li>
+                    <li class="divider"></li>
+                    <li><a href='#' data='mean_autre'>Autres</a></li>
+	        <li><a href='#' data='mean_bett'>Betterave</a></li>
+	        <li><a href='#' data='mean_ble' class="selected">Ble</a></li>
+	        <li><a href='#' data='mean_canal'>Canal</a></li>
+	        <li><a href='#' data='mean_clem'>Clementier</a></li>
+	        <li><a href='#' data='mean_eau'>Eau</a></li>
+	        <li><a href='#' data='mean_foret'>Foret</a></li>
+	        <li><a href='#' data='mean_fourr'>Fourrage</a></li>
+	        <li><a href='#' data='mean_fru_1'>Fruit Dive</a></li>
+	        <li><a href='#' data='mean_fruit'>Fruits</a></li>
+	        <li><a href='#' data='mean_habi'>Habitat</a></li>
+	        <li><a href='#' data='mean_incul'>Inculte</a></li>
+	        <li><a href='#' data='mean_jache'>Jachere</a></li>
+	        <li><a href='#' data='mean_legum'>Legumineuse</a></li>
+	        <li><a href='#' data='mean_luze'>Luzerne</a></li>
+	        <li><a href='#' data='mean_mais'>Mais</a></li>
+	        <li><a href='#' data='mean_marai'>Maraichage</a></li>
+	        <li><a href='#' data='mean_navel'>Navel</a></li>
+	        <li><a href='#' data='mean_oliv'>Olivier</a></li>
+	        <li><a href='#' data='mean_orge'>Orge</a></li>
+	        <li><a href='#' data='mean_oued'>Oued</a></li>
+	        <li><a href='#' data='mean_parc'>Parcours</a></li>
+	        <li><a href='#' data='mean_pdt'>Pomme de Terre</a></li>
+	        <li><a href='#' data='mean_route'>Route</a></li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Autres Activites <b class="caret"></b></a>
+                  <ul id="layer_selector" class="dropdown-menu">
+                    <li><a href="#" data="null">Bourses</a></li>
+                    <li><a href="#" data="null">Formations</a></li>
+                    <li><a href="#" data="nodatayet">Stations Meteorologiques</a></li>
+                  </ul>
+                </li>            
+            </ul>
+            <form class="navbar-search pull-left" action="">
+                <input type="text" class="search-query span2" placeholder="Trouver">
+            </form>
+            <ul class="nav pull-right">
+                <li class="divider-vertical"></li>
+                <li><a href="http://programmemec.ma/" target="_blank">Accueil MEC</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div id="map"></div>
+    
+    <div id="footer">
+        <div class="container">
+             <div class="featurette">
+                 <img class="featurette-image pull-right" src="http://dai.geosprocket.com/img/usaid-300.png">
+                 <p><strong>Explorer l'environnement economique du Maroc. </strong><br><br>Cette carte est une fenetre sur le travail de la MEC. Utilisez-le pour trouver des idees et des explications dans l'entreprise, de l'agriculture et des ressources naturelles des provinces de l'Oriental et Doukkala-Abda.</p>
+             </div>    
+         </div>
+     </div>
+  </body>
+
+  <!-- include cartodb.js library -->
+  <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.js"></script>
+  <script src="http://geosprocket.com/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  
+  <!--SQL LAYER SWITCHER-->
+  <script>
+
+    // create layer selector
+    function createSelector(layer) {
+      var sql = new cartodb.SQL({ user: 'dai' });
+
+      var $options = $('#layer_selector li');
+      $options.click(function(e) {
+
+        // get the area of the selected layer
+        var $li = $(e.target);
+        var crop = $li.attr('data');
+
+        // deselect all and select the clicked one
+        $options.removeClass('selected');
+        $li.addClass('selected');
+
+        // create query based on data from the layer
+        var query = "select * from ag_2011_commune3";
+        if(crop !== 'tout') {
+          query = "select * from ag_2011_commune3 where " + crop + " > 0 ";
+        }
+
+        // change the query in the layer to update the map
+        layer.setQuery(query);
+      });
+    }
+
+    var layers = [];
+    function main() {
+
+      var map = L.map('map', { 
+        zoomControl: true,
+        center: [34.161818161230386, -5.0537109375],
+        zoom: 7
+      })
+ 
+//I CAN HAZ MAP LAYERZ . . . 
+     
+      // add a terrain baselayer from mapbox
+      L.tileLayer("http://a.tiles.mapbox.com/v3/dai.map-jfzz54yc,landplanner.maroc_prov,landplanner.map-dbrgj328/{z}/{x}/{y}.png", {
+        attribution: "<a href='http://mapbox.com/about/maps' target='_blank'>Terms & Feedback</a>",
+        order: 0,
+        id: 10645
+      }).addTo(map);
+      
+      //Irrigation data table
+      //Note: doesn't need "tile_style" since it's only covering one style
+      cartodb.createLayer(map, 'http://dai.cartodb.com/api/v1/viz/11478/viz.json')
+        .done(function(layer){
+          createSelector(layer);
+          layer.infowindow.set('template', $('#infowindow_template').html());
+          map.addLayer(layer);
+          layers.push(layer);
+       });
+       
+      //Commune-level crop cultivation data table: "Agriculture"
+      cartodb.createLayer(map, 'http://dai.cartodb.com/api/v1/viz/11371/viz.json', {tile_style: "#{{table_name}}{line-color:#222;line-width:1.2;polygon-opacity:0.9;[" + crop + "<0.5]{polygon-fill:#FFFFFF;}[" + crop + ">=0.5][" + crop + "<0.75]{polygon-fill:#BCB8FF;}[" + crop + ">=0.75][" + crop + "<1]{polygon-fill:#9991FF;}[" + crop + ">=1][" + crop + "<1.5]{polygon-fill:#5B4FFF;}[" + crop + ">=1.5][" + crop + "<2]{polygon-fill:#392BFF;}[" + crop + ">=2]{polygon-fill:#1300FF;}}"})
+        .done(function(layer){
+          createSelector(layer);
+          layer.infowindow.set('template', $('#infowindow_template').html());
+          map.addLayer(layer);
+          layers.push(layer);
+        });
+      
+      //Business climate table data: "Affaires" 
+      //Note: doesn't need "tile_style" since it's only covering one style
+      cartodb.createLayer(map, 'http://dai.cartodb.com/api/v1/viz/11479/viz.json')
+        .done(function(layer){
+          createSelector(layer);
+          layer.infowindow.set('template', $('#infowindow_template').html());
+          map.addLayer(layer);
+          layers.push(layer);
+        });  
+      
+      //Grants and trainings table data: "Autres Activites -> Bourses & Formations" 
+      //Note: doesn't need "tile_style" since it's only covering one style
+      cartodb.createLayer(map, 'http://dai.cartodb.com/api/v1/viz/11538/viz.json')
+        .done(function(layer){
+          createSelector(layer);
+          layer.infowindow.set('template', $('#infowindow_template').html());
+          map.addLayer(layer);
+          layers.push(layer);
+        });
+          
+      // add a reference overlay from mapbox      
+      L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-dbrgj328/{z}/{x}/{y}.png', {
+        attribution: 'OpenStreetmap'
+      }).addTo(map);
+      
+      $('body').click(function(){
+        console.log('click')
+        if (layers[1].isVisible()){
+          layers[1].hide();
+        }else{
+          layers[1].show();
+        }
+      })
+    }
+
+    window.onload = main;
+
+  </script>
+  
+  <!--CROP CULTIVATION POPUPS-->
+  <script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup">
+ 
+      <a href="#close" class="cartodb-popup-close-button close">x</a>
+ 
+       <div class="cartodb-popup-content-wrapper">
+         <div class="cartodb-popup-content">
+           <!-- content.data contains the field info -->
+           <hr>
+           <h4>{{content.data.libelle}}</h4>
+           <h4>Nombre moyen de hectares cultives avec:</h4><hr>
+           <img style="width: 100%" src="http://chart.apis.google.com/chart?chs=270x200&amp;cht=p&amp;chco=0033CC|3300CC|9900CC|CC0099|0099CC|0A47FF|4775FF|CC0033|00CC99|FFD147|FFC20A|CC3300|00CC33|33CC00|99CC00|CC9900|004D66|0029A3|0038E0|66001A|00664D|E0A800|A37A00|661A00&amp;chd=t:{{content.data.mean_autre}},{{content.data.mean_bett}},{{content.data.mean_ble}},{{content.data.mean_canal}},{{content.data.mean_clem}},{{content.data.mean_eau}},{{content.data.mean_foret}},{{content.data.mean_fourr}},{{content.data.mean_fruitd}},{{content.data.mean_fruits}},{{content.data.mean_habi}},{{content.data.mean_incul}},{{content.data.mean_jache}},{{content.data.mean_legum}},{{content.data.mean_luze}},{{content.data.mean_mais}},{{content.data.mean_marai}},{{content.data.mean_navel}},{{content.data.mean_oliv}},{{content.data.mean_orge}},{{content.data.mean_oued}},{{content.data.mean_parc}},{{content.data.mean_pdt}},{{content.data.mean_route}}&amp;chdl=Autres|Betterave|Ble|Canal|Clementier|Eau|Foret|Fourrage|Fruit+Dive|Fruits|Habitat|Inculte|Jachere|Legumineuse|Luzerne|Mais|Maraichage|Navel|Olivier|Orge|Oued|Parcours|Pomme+de+Terre|Route&amp;chdlp=b&amp;chp=2&amp;chl={{content.data.mean_autre}}|{{content.data.mean_bett}}|{{content.data.mean_ble}}|{{content.data.mean_canal}}|{{content.data.mean_clem}}|{{content.data.mean_eau}}|{{content.data.mean_foret}}|{{content.data.mean_fourr}}|{{content.data.mean_fruitd}}|{{content.data.mean_fruits}}|{{content.data.mean_habi}}|{{content.data.mean_incul}}|{{content.data.mean_jache}}|{{content.data.mean_legum}}|{{content.data.mean_luze}}|{{content.data.mean_mais}}|{{content.data.mean_marai}}|{{content.data.mean_navel}}|{{content.data.mean_oliv}}|{{content.data.mean_orge}}|{{content.data.mean_oued}}|{{content.data.mean_parc}}|{{content.data.mean_pdt}}|{{content.data.mean_route}}&amp;chds=a&amp;chma=5,5,10,5|5"><hr><h4><em>Les données recueillies en 2011</ em></h4>
+           
+         </div>
+       </div>
+       <div class="cartodb-popup-tip-container"></div>
+    </div>
+  </script>
+  
+  <!--BUSINESS CLIMATE POPUPS-->
+  <!--<script type="infowindow/html" id="infowindow_template">
+    <div class="cartodb-popup">
+ 
+      <a href="#close" class="cartodb-popup-close-button close">x</a>
+ 
+       <div class="cartodb-popup-content-wrapper">
+         <div class="cartodb-popup-content">
+           <h4><strong>{{content.data.name}},{{content.data.descriptio}}</strong><hr>Nombre moyen de jours necessaires pour: <br/>* Creation de entreprise: {{content.data.days2ent}}<br/>*Demarrer une cooperative: {{content.data.days2coop}}<br/>* Obtenir un permis de construire: {{content.data.days2perm}}</h4><img src="http://chart.googleapis.com/chart?chf=bg,s,00000000&chxl=0:|Obtenir+un+permis+de+construire|Demarrer+une+cooperative|Creation+de+entreprise&chxt=y&chbh=20,30&chs=260x150&cht=bhs&chco=4D89F9&chds=0,260&chd=t:{{content.data.days2ent}},{{content.data.days2coop}},{{content.data.days2perm}}&chma=|5" width="260" height="150" alt=""/><hr><h4><em>Les données recueillies en 2010</ em></h4>           
+         </div>
+       </div>
+       <div class="cartodb-popup-tip-container"></div>
+    </div>
+  </script>-->
+
 </html>
