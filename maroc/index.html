@@ -112,10 +112,10 @@
     function init() {
     // INITIATE LEAFLET MAP - ADD PARAMETERS AS NECESSARY   
     map = new L.Map('map', {
-      center: [44.4795, -73.2070],
-      zoom: 16,
-      minZoom: 12,
-      maxZoom: 18
+      center: [33.41310221370827, -5.6689453125],
+      zoom: 7,
+      minZoom: 6,
+      maxZoom: 14
     });
     
     //GEOCODER CONTROLS
@@ -135,14 +135,14 @@
     
     //GIVE CARTODB THE PARAMETERS OF YOUR TABLE BY VIZ.JSON - 
     
-    var layerUrl = 'http://geosprocket.cartodb.com/api/v1/viz/btv_prints_041513f/viz.json';
+    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
     var layerOptions = {
 	  //SELECT EVERYTHING, BUT ORDER BY LATITUDE SO THE 3D BUILDINGS DON'T OVERLAP EACH OTHER
       query: "SELECT * FROM {{table_name}} order by st_ymax(the_geom) desc",
 	  //THROW IN SOME CARTOCSS AT "TILE_STYLE" TO TIE THE RENDERED BUILDING HEIGHT TO A DATA FIELD
       //NOTE THIS IS DONE WITH COMPRESSED CARTOCSS; CHECK OUT THE REFERENCE FOR MORE INFO:
 	  //http://mapbox.com/tilemill/docs/manual/carto/
-      tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=16]{line-color: #FFF;line-opacity: 0.5;line-width: 0.3;polygon-opacity: 0.8;[type='Enterprise']{polygon-fill:#f6e03f;}[type='Institutional']{polygon-fill:#adbd06;}[type='Mixed Use']{polygon-fill:#cfc8a2;}[type='RCO']{polygon-fill:#f6f7bd;}[type='Residential']{polygon-fill:#895793;}[type='Urban Reserve']{polygon-fill:#de3f33;}}[zoom>16]{building-height:[height]*1.5;building-fill-opacity:0.8;text-name:[name];text-face-name:'DejaVu Serif Bold';text-size: 10;text-wrap-width:12;text-fill:#222;text-allow-overlap:true;text-halo-fill:rgba(255,255,255,0.7);text-halo-radius:1;text-dy:-10;[type='Enterprise']{building-fill:#f6e03f;}[type='Institutional']{building-fill:#adbd06;}[type='Mixed Use']{building-fill:#cfc8a2;}[type='RCO']{building-fill:#f6f7bd;}[type='Residential']{building-fill:#895793;}[type='Urban Reserve']{building-fill:#de3f33;}}}"
+      tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{marker-fill:#A53ED5;marker-width:20;marker-line-color:#FFF;marker-line-width:1;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{marker-file:url('http://geosprocket.com/assets/img/wheat_blue-30px.png');marker-width:20;}}"
        }
     //TACK THE LAYER ON TOP OF THE BASE TILES
     cartodb.createLayer(map, layerUrl, layerOptions)
@@ -158,10 +158,10 @@
     
     //REMOVE THE REFERENCE OVERLAY IF THE BUILDINGS ARE 3D (WHEN ZOOM GOES PAST 16)
     map.on('moveend', function () {
-          if (map.getZoom() > 16 && map.hasLayer(reference)) {
+          if (map.getZoom() > 10 && map.hasLayer(reference)) {
               map.removeLayer(reference);
           }
-          if (map.getZoom() <= 16 && map.hasLayer(reference) == false) {
+          if (map.getZoom() <= 10 && map.hasLayer(reference) == false) {
               map.addLayer(reference);
           }
       });
