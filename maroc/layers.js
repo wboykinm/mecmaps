@@ -242,6 +242,18 @@
 			
 	        LayerActions[$(this).attr('id')]();
 	        $('#infowindow_template').html();
-	    })
+	    });
+		
+//To pan between provinces		
+		$('.site').click(function () {
+			$('.site').removeClass('active');
+			$(this).addClass('active');
+			if ($('.site.active').attr('id') == 'doukkala') {
+				map.setView([32.8069, -8.3427], 9);
+			}
+			if ($('.site.active').attr('id') == 'oriental') {
+				map.setView([34.8262, -2.2920], 9);
+			}
+		});
 
 	}
