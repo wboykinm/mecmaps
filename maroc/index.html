@@ -1,230 +1,147 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <title>MECMaps-Ag</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A data exploration tool">
+    <meta name="author" content="DAI">
+    <link rel="stylesheet" href="http://geosprocket.com/assets/cartodb/2.0.24/cartodb.css" />
+    <link rel="stylesheet" href="http://geosprocket.com/assets/bootstrap/css/bootstrap-cosmo.css" />
+    <link rel="stylesheet" href="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/css/l.geosearch2.css" />
+    <!--<link href="http://geosprocket.com/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet"http://geosprocket.com/assets/cartodb/2.0.24/cartodb.ie.css" />
+    <![endif]-->  
     <style>
       html, body {width:100%; height:100%; padding: 0; margin: 0;}
-      #map {width: 100%; /*height:100%;*/ position: absolute; top: 60px; bottom: 0px; background: black; z-index:1;}
-      div.cartodb-popup div.cartodb-popup-content {max-height:none | inherit}
+      #map {width: 100%; height:100%; background: black; z-index:1;}
+      #menu { position: absolute; top: 105px; right: 10px; width: 240px; height:60px; background: transparent; z-index:10; text-align: center;}
+      #footer {
+      position:absolute;
+      bottom:0px;
+      left:0px;
+      right:0px;
+      background:#fff;
+      z-index:999;
+      overflow:auto;
+      /*height:160px;*/
+      padding:5px;
+      opacity:0.9;
+      }
+      .leaflet-container .leaflet-control-zoom {margin-top:55;}
+	  
+	ul.inline > li, ol.inline > li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
     </style>
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.css" />
-    <!--[if lte IE 8]>
-    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v2/themes/css/cartodb.ie.css" />
-    <![endif]-->
-	<!-- NOTE WE'RE USING A BOOTSWATCH THEME INSTEAD OF BOOTSTRAP STANDARD-->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootswatch/2.3.1/journal/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/l.geosearch.mod.css" />
-	
-	<!--HERE YOU CAN CUSTOMIZE THE POPUP INFOWINDOW WITH DATA FROM YOU SOURCE TABLE; VARIABLES IN THE MUSTACHE TAGS-->
     <script type="infowindow/html" id="infowindow_template">
       <div class="cartodb-popup">
          <a href="#close" class="cartodb-popup-close-button close">x</a>
          <div class="cartodb-popup-content-wrapper">
            <div class="cartodb-popup-content">
-             <!-- 'content.data.whatever' CONTAINS THE FIELD DATA, THE REST IS HTML -->
-             <h3>{{content.data.name}}</h3><h4 style="color:#222;">{{content.data.newstr}}</h4><hr>
-             <table class="table table-condensed">
-			   <tr>
-			     <td><strong>Zone</strong></td>
-				 <td><i>{{content.data.subdistric}}</i></td>
-			   </tr>
-			   <tr>
-			     <td><strong>Height</strong></td>
-				 <td>{{content.data.height}} meters</td>
-			   </tr>
-			 </table>
-             <hr>
-			<!--A BUTTON THAT POINTS TOWARD MORE INFO ABOUT THE CLICKED FEATURE. IDEALLY THERE'S A URL THAT
-			CAN BE CONSTRUCTED WITH A KEY VARIABLE FROM THE TABLE, LIKE 'http://city.gov/sheets/{{content.data.key}}.pdf'-->
-             <a type="button" class="btn" href="http://www.burlingtonvt.gov/PropertyDetails.aspx?a=6998" target="_blank"><i class="icon-download"></i> Go to fact sheet</a>           
+             <!-- content.data contains the field info -->
+             <h3 style="color:#333;">{{content.data.name}} - {{content.data.postal}}</h3>
+             <a type="button" class="btn btn-small btn-info lyr" href="http://s3.amazonaws.com/honde1/alpha-011513/scorecards/{{content.data.postal}}.pdf" target="_blank"><i class="icon-download icon-white"></i> Download Scorecard</a>
+             
            </div>
          </div>
          <div class="cartodb-popup-tip-container"></div>
       </div>
     </script>
+    <script src="layers.js"></script>
   </head>
   <body onload="init()">
-    <!--ADD THE MAP ELEMENT-->
     <div id='map'></div>
-    <!--SOME BOOTSTRAP NAV BOILERPLATE TO MAKE THINGS SIMPLE AND APPEALING-->
+    <div id="menu">
+		<table class="table-condensed" style="max-width: 340px;">
+			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='autres'>Autres</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='bett'>Betterave</a></td>
+			</tr>
+			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='ble' class="selected">Ble</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='canal'>Canal</a></td>
+			</tr>
+			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='clem'>Clementier</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='eau'>Eau</a></td>
+			</tr>
+			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='foret'>Foret</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='fourr'>Fourrage</a></td>
+			</tr>
+			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='fruitd'>Fruit Dive</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='fruits'>Fruits</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='habi'>Habitat</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='incul'>Inculte</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='jache'>Jachere</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='legum'>Legumineuse</a></td>
+		    </tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='luze'>Luzerne</a></td>
+			    <td><a class="btn btn-small btn-info lyr" id='mais'>Mais</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='marai'>Maraichage</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='navel'>Navel</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='oliv'>Olivier</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='orge'>Orge</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='oued'>Oued</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='parc'>Parcours</a></td>
+			</tr>
+			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='pdt'>Pomme de Terre</a></td>
+				<td><a class="btn btn-small btn-info lyr" id='route'>Route</a></td>
+			</tr>
+		</table>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
-          <a class="brand">Burlington VT - Buildings & Zoning</a>
-          <ul class="nav pull-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><small><i class="icon-download icon-white"></i> Download buildings in this view<b class="caret"></b></small></a>
-			  <!--THESE MENU ITEMS TRIGGER FORMAT-SPECIFIC DATA DOWNLOADS - MORE BELOW-->
-              <ul class="dropdown-menu">
-                <li><a id="downkml" href="#" target="_blank">KML</a></li>
-                <li><a id="downshp" href="#">Shapefile</a></li>
-                <li><a id="downgeojson" href="#">GeoJSON</a></li>
-                <li><a id="downtopojson" href="#">TopoJSON</a></li>
-              </ul>
-            </li>
-			<li class="divider-vertical"></li>
-			<!--TRIGGERS A MODAL WINDOW WITH ALL YOUR EXPLANATORY INFORMATION; NICE TO HAVE HIDDEN MOST OF THE TIME-->
-            <li><a href="#myModal" role="button" class="pull-right" data-toggle="modal"><small>About</small></a></li>
-          </ul>
+          
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+			  <li><a class="brand">MECMaps</a></li>
+              <li><a href="#" id="affaires">Affaires</a></li>
+              <li class="active"><a href="#" id="ag">Agriculture</a></li>
+			  <li><a href="#" id="hydro">Hidrologie</a></li>
+			  <li><a href="#" id="activities">Autres Activites</a></li>
+            </ul>
+			<ul class="nav pull-right">
+                <li class="divider-vertical"></li>
+                <li><a href="http://programmemec.ma/" target="_blank">Accueil MEC</a></li>
+				<li><img style="vertical-align:middle;padding:10px;" src="img/2_logo-usaid.gif"/></li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-    <div class="container-narrow">
-	<!--MODAL POPUP CONTENT-->
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">About</h3>
-      </div>
-      <div class="modal-body">
-        <p>This page is a demonstration of a theme-specific, easily-replicated public portal for open geodata. More details on the project are <a href="http://geosprocket.blogspot.com/2013/04/toward-ideal-geoportal.html" target="_blank">available here.</a></p>
-        <hr>
-		<!--HACKTASTIC CATEGORICAL LEGEND-->
-        <p><strong>Zoning Categories</strong></p>
-        <ul class="unstyled">
-          <li><a style='background:#f6e03f;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Enterprise</li>
-          <li><a style='background:#adbd06;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Institutional</li>
-          <li><a style='background:#cfc8a2;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Mixed Use</li>
-          <li><a style='background:#f6f7bd;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Registered Community Organizations</li>
-          <li><a style='background:#895793;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Residential</li>
-          <li><a style='background:#de3f33;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>&nbsp;Urban Reserve</li>
-        </ul>
-        <p><small>Buildings and zoning data provided by <a href="http://burlingtonvt.gov/" target="_blank">the City of Burlington</a> and <a href="http://www.openstreetmap.org/?lat=44.48026&lon=-73.21476&zoom=15&layers=M" target="_blank">OpenStreetmap Contributors</a></small></p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
+    <div id="footer">
+		<div class="container">
+				<ul class="inline">
+					<li><h2 class="switch-title">Explorer l'agriculture du Maroc. </h2></li>
+					<li class="divider"></li>
+					<li><img src="img/legend1.png"/>   </li>
+				</ul>  
+         </div>
     </div>
   </body>
-  <script>
-    //GEOCODER PARAMETERS
-    
-    function getURLParameter(name) {
-       return decodeURI(
-       (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search) || [, ])[1]);
-    }
-    
-    var regionParameter = getURLParameter('region');
-    var region = (regionParameter === 'undefined') ? '' : regionParameter;
-    
-      //WRAP THE MAP ACTION 
-    var map;
-    
-    function init() {
-    // INITIATE LEAFLET MAP - ADD PARAMETERS AS NECESSARY   
-    map = new L.Map('map', {
-      center: [33.41310221370827, -5.6689453125],
-      zoom: 7,
-      minZoom: 6,
-      maxZoom: 14
-    });
-    
-    //GEOCODER CONTROLS
-       new L.Control.GeoSearch({
-           provider: new L.GeoSearch.Provider.Google({
-               region: region
-           })
-       }).addTo(map);
-       
-    //CALL SOME COMPELLING MAPBOX TILES AS A BASE    
-    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-b31zy3ud/{z}/{x}/{y}.png', {
-      attribution: '<a href="http://mapbox.com/about/maps/" target="_blank">w/ Mapbox</a>'
-    }).addTo(map);
-    
-    //DEFINE A REFERENCE OVERLAY TO PLACE ON TOP OF THE BUILDINGS:
-    var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-50ghoxbt/{z}/{x}/{y}.png');
-    
-    //GIVE CARTODB THE PARAMETERS OF YOUR TABLE BY VIZ.JSON - 
-    
-    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
-    var layerOptions = {
-	  //SELECT EVERYTHING, BUT ORDER BY LATITUDE SO THE 3D BUILDINGS DON'T OVERLAP EACH OTHER
-      query: "SELECT * FROM {{table_name}} order by st_ymax(the_geom) desc",
-	  //THROW IN SOME CARTOCSS AT "TILE_STYLE" TO TIE THE RENDERED BUILDING HEIGHT TO A DATA FIELD
-      //NOTE THIS IS DONE WITH COMPRESSED CARTOCSS; CHECK OUT THE REFERENCE FOR MORE INFO:
-	  //http://mapbox.com/tilemill/docs/manual/carto/
-      tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{marker-fill:#A53ED5;marker-width:20;marker-line-color:#FFF;marker-line-width:1;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{marker-file:url('http://geosprocket.com/assets/img/wheat_blue-30px.png');marker-width:20;}}"
-       }
-    //TACK THE LAYER ON TOP OF THE BASE TILES
-    cartodb.createLayer(map, layerUrl, layerOptions)
-      .on('done', function (layer) {
-      map.addLayer(layer);
-	  //ADD THE REFERENCE OVERLAY ABOVE THE THEMATIC LAYER
-      map.addLayer(reference);
-      layer.infowindow.set('template', $('#infowindow_template').html());
-    
-    }).on('error', function () {
-      //LOG THE ERROR
-    });
-    
-    //REMOVE THE REFERENCE OVERLAY IF THE BUILDINGS ARE 3D (WHEN ZOOM GOES PAST 16)
-    map.on('moveend', function () {
-          if (map.getZoom() > 10 && map.hasLayer(reference)) {
-              map.removeLayer(reference);
-          }
-          if (map.getZoom() <= 10 && map.hasLayer(reference) == false) {
-              map.addLayer(reference);
-          }
-      });
-    
-    var hash = new L.Hash(map);
-    
-    //SOME JQUERY GRABS THE CURRENT BOUNDING BOX, PASSES IT TO THE CARTODB SQL API,
-	//WHICH PACKAGES UP TO 2000 BUILDING FEATURE RECORDS IN THE GIVEN FORMAT AND
-	//SENDS IT BACK TO THE BROWSER FOR DOWNLOAD. WICKED FAST.
-    
-    //KML FORMAT,            
-    $('#downkml').click(function () {
-      var nwlat = map.getBounds().getNorthWest().lat,
-        nwlon = map.getBounds().getNorthWest().lng,
-        selat = map.getBounds().getSouthEast().lat,
-        selon = map.getBounds().getSouthEast().lng;
-      //NOTE THAT THIS IS AN ENCODED SQL STRING IN A URL. BEST THING EVER.
-      var new_sql = "http://geosprocket.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20btv_prints_041513f%20WHERE%20the_geom%20%26%26%20ST_SetSRID(ST_MakeBox2D(ST_Point(" + nwlon + "%2C%20" + nwlat + ")%2C%20ST_Point(" + selon + "%2C%20" + selat + "))%2C4326)%20ORDER%20BY%20height%20DESC%20LIMIT%202000&format=kml";
-    
-      $(this).attr("href", new_sql);
-    });
-    
-    //SHAPEFILE FORMAT,           
-    $('#downshp').click(function () {
-      var nwlat = map.getBounds().getNorthWest().lat,
-        nwlon = map.getBounds().getNorthWest().lng,
-        selat = map.getBounds().getSouthEast().lat,
-        selon = map.getBounds().getSouthEast().lng;
-    
-      var new_sql = "http://geosprocket.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20btv_prints_041513f%20WHERE%20the_geom%20%26%26%20ST_SetSRID(ST_MakeBox2D(ST_Point(" + nwlon + "%2C%20" + nwlat + ")%2C%20ST_Point(" + selon + "%2C%20" + selat + "))%2C4326)%20ORDER%20BY%20height%20DESC%20LIMIT%202000&format=shp";
-    
-      $(this).attr("href", new_sql);
-    });
-    
-    //GEOJSON FORMAT,           
-    $('#downgeojson').click(function () {
-      var nwlat = map.getBounds().getNorthWest().lat,
-        nwlon = map.getBounds().getNorthWest().lng,
-        selat = map.getBounds().getSouthEast().lat,
-        selon = map.getBounds().getSouthEast().lng;
-    
-      var new_sql = "http://geosprocket.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20btv_prints_041513f%20WHERE%20the_geom%20%26%26%20ST_SetSRID(ST_MakeBox2D(ST_Point(" + nwlon + "%2C%20" + nwlat + ")%2C%20ST_Point(" + selon + "%2C%20" + selat + "))%2C4326)%20ORDER%20BY%20height%20DESC%20LIMIT%202000&format=geojson";
-    
-      $(this).attr("href", new_sql);
-    });
-    
-      //AND TOPOJSON FORMAT (FOR THE EDGY DATAVIZ TYPES)           
-    $('#downtopojson').click(function () {
-      var nwlat = map.getBounds().getNorthWest().lat,
-        nwlon = map.getBounds().getNorthWest().lng,
-        selat = map.getBounds().getSouthEast().lat,
-        selon = map.getBounds().getSouthEast().lng;
-    
-      var new_sql = "http://geosprocket.cartodb.com/api/v2/sql?q=SELECT%20*%20FROM%20btv_prints_041513f%20WHERE%20the_geom%20%26%26%20ST_SetSRID(ST_MakeBox2D(ST_Point(" + nwlon + "%2C%20" + nwlat + ")%2C%20ST_Point(" + selon + "%2C%20" + selat + "))%2C4326)%20ORDER%20BY%20height%20DESC%20LIMIT%202000&format=topojson";
-    
-      $(this).attr("href", new_sql);
-    });
-    
-    }
-  </script>
-  <!--libraries kept to a minimum. Bootstrap could be used a la carte here, but I'm being lazy-->
-  <script src="http://libs.cartocdn.com/cartodb.js/v2/cartodb.js"></script>
-  <script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-  <script src="js/leaflet-hash.js"></script>
-  <script src="js/l.geosearch.mod.js"></script>
+  <script src="http://geosprocket.com/assets/cartodb/2.0.24/cartodb.js"></script>
+  <script src="http://geosprocket.com/assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="http://geosprocket.com/assets/leaflet/leaflet-hash.js"></script>
+  <script src="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/js/l.control2.geosearch.js"></script>
+  <script src="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/js/l.geosearch.provider.google.js"></script>
 </html>
