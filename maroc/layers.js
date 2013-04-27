@@ -35,7 +35,8 @@
 	        attribution: 'Openstreetmap Contributors'
 	    });
 		
-		var currentyear = $('.year.active').attr('id')
+		
+		var currentyear = $('.year.active').attr('id');
 
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
 	    var layerOptions = {
@@ -186,9 +187,9 @@
 	            return true;
 	        },
 			
-			route: function () {
-	            layers[0].setQuery("SELECT * FROM {{table_name}} WHERE route>0 AND year=" + currentyear);
-	            layers[0].setCartoCSS("Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[route<=1]{marker-fill:#CCDDFF;}[route>1][route<=1.5]{marker-fill:#6677B1;}[route>1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[route<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[route>1][route<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[route>1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}");
+			tout: function () {
+	            layers[0].setQuery("SELECT * FROM {{table_name}} WHERE tout>0 AND year=" + currentyear);
+	            layers[0].setCartoCSS("Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[tout<=1]{marker-fill:#CCDDFF;}[tout>1][tout<=1.5]{marker-fill:#6677B1;}[tout>1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[tout<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[tout>1][tout<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[tout>1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}");
 	            return true;
 	        }
 	        
