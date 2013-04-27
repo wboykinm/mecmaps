@@ -34,8 +34,7 @@
 	    var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
 	        attribution: 'Openstreetmap Contributors'
 	    });
-		
-		
+				
 		var currentyear = $('.year.active').attr('id');
 
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
