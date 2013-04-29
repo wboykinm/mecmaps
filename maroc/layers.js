@@ -226,7 +226,7 @@
 	            lat = map.getCenter().lat,
 	            lon = map.getCenter().lng;
 
-	        var new_url = base_url + $(this).attr('id') + '/index.html#' + zoom + '/' + lat + '/' + lon;
+	        var new_url = base_url + $(this).attr('id') + '/#' + zoom + '/' + lat + '/' + lon;
 
 	        $(this).attr("href", new_url);
 	    });
