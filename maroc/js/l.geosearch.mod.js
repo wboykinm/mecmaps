@@ -1,5 +1,5 @@
 /*
- * L.GeoSearch - search for an address and zoom to it's location
+ * L.GeoSearch - search for an address and zoom to its location
  * https://github.com/smeijer/leaflet.control.geosearch
  * modified for geoportal use by wboykinm
  */
@@ -18,7 +18,7 @@ L.GeoSearch.Result = function (x, y, label) {
 
 L.Control.GeoSearch = L.Control.extend({
     options: {
-        position: 'topright'
+        position: 'topcenter'
     },
 
     initialize: function (options) {
@@ -32,10 +32,10 @@ L.Control.GeoSearch = L.Control.extend({
             'country': options.country || '',
             'provider': options.provider,
             
-            'searchLabel': options.searchLabel || 'search for address...',
-            'notFoundMessage' : options.notFoundMessage || 'Sorry, that address could not be found.',
+            'searchLabel': options.searchLabel || 'recherche d\'un endroit ...',
+            'notFoundMessage' : options.notFoundMessage || 'Désolé, cette adresse n\'a pu être trouvée',
             'messageHideDelay': options.messageHideDelay || 3000,
-            'zoomLevel': options.zoomLevel || 18
+            'zoomLevel': options.zoomLevel || 15
         };
     },
 

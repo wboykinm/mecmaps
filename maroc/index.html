@@ -8,7 +8,7 @@
     <meta name="author" content="DAI">
     <link rel="stylesheet" href="http://geosprocket.com/assets/cartodb/2.0.24/cartodb.css" />
     <link rel="stylesheet" href="http://geosprocket.com/assets/bootstrap/css/bootstrap-cosmo.css" />
-    <link rel="stylesheet" href="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/css/l.geosearch2.css" />
+    <link rel="stylesheet" href="css/l.geosearch.mod.css" />
     <!--<link href="http://geosprocket.com/assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">-->
     <!--[if lte IE 8]>
     <link rel="stylesheet"http://geosprocket.com/assets/cartodb/2.0.24/cartodb.ie.css" />
@@ -16,7 +16,7 @@
     <style>
       html, body {width:100%; height:100%; padding: 0; margin: 0;}
       #map {width: 100%; height:100%; background: black; z-index:1;}
-      #menu { position: absolute; top: 105px; right: 10px; width: 240px; height:60px; background: transparent; z-index:10; text-align: center;}
+      #menu { position: absolute; top: 110px; right: 10px; width: 305px; height:60px; background: transparent; z-index:10; text-align: center;}
       #footer {
       position:absolute;
       bottom:0px;
@@ -27,10 +27,10 @@
       overflow:auto;
       /*height:160px;*/
       padding:5px;
-      opacity:0.9;
+      opacity:0.95;
       }
       .leaflet-container .leaflet-control-zoom {margin-top:55;}
-	  
+	  	  
 	ul.inline > li, ol.inline > li {
     display: inline-block;
     padding-right: 5px;
@@ -85,70 +85,61 @@
     <script src="layers.js"></script>
   </head>
   <body onload="init()">
+    
     <div id='map'></div>
     <div id="menu">
 		<table class="table-condensed" style="max-width: 340px;">
 			<tr>
 			  <td><a class="btn btn-small btn-info lyr" id='autres'>Autres</a></td>
 			  <td><a class="btn btn-small btn-info lyr" id='bett'>Betterave</a></td>
-			</tr>
-			<tr>
 			  <td><a class="btn btn-small btn-info lyr" id='ble' class="selected">Ble</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='canal'>Canal</a></td>
 			</tr>
 			<tr>
+			  <td><a class="btn btn-small btn-info lyr" id='canal'>Canal</a></td>
 			  <td><a class="btn btn-small btn-info lyr" id='clem'>Clementier</a></td>
 			  <td><a class="btn btn-small btn-info lyr" id='eau'>Eau</a></td>
 			</tr>
 			<tr>
 			  <td><a class="btn btn-small btn-info lyr" id='foret'>Foret</a></td>
 			  <td><a class="btn btn-small btn-info lyr" id='fourr'>Fourrage</a></td>
-			</tr>
-			<tr>
 			  <td><a class="btn btn-small btn-info lyr" id='fruitd'>Fruit Dive</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='fruits'>Fruits</a></td>
 			</tr>
 			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='habi'>Habitat</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='incul'>Inculte</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='fruits'>Fruits</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='habi'>Habitat</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='incul'>Inculte</a></td>
 			</tr>
 			<tr>
 				<td><a class="btn btn-small btn-info lyr" id='jache'>Jachere</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='legum'>Legumineuse</a></td>
-		    </tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='luze'>Luzerne</a></td>
-			    <td><a class="btn btn-small btn-info lyr" id='mais'>Mais</a></td>
+		    	<td><a class="btn btn-small btn-info lyr" id='luze'>Luzerne</a></td>
 			</tr>
 			<tr>
+			    <td><a class="btn btn-small btn-info lyr" id='mais'>Mais</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='marai'>Maraichage</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='navel'>Navel</a></td>
 			</tr>
 			<tr>
 				<td><a class="btn btn-small btn-info lyr" id='oliv'>Olivier</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='orge'>Orge</a></td>
-			</tr>
-			<tr>
 				<td><a class="btn btn-small btn-info lyr" id='oued'>Oued</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='parc'>Parcours</a></td>
 			</tr>
 			<tr>
+				<td><a class="btn btn-small btn-info lyr" id='parc'>Parcours</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='pdt'>Pomme de Terre</a></td>
 				<td><a class="btn btn-small btn-info lyr" id='tout'>Tout</a></td>
 			</tr>
+			
 			<tr>
-				<td>&nbsp;</td>
-			</tr>
-			<tr>
-				<td colspan="2">
+				<td colspan="3">
 					<div class="btn-group">
 						<a class="btn btn-primary site active" id="oriental" data="[34.8262, -2.2920], 9">Oriental</a>
 						<a class="btn btn-primary site" id="doukkala" data="[32.8069, -8.3427], 9">Doukkala</a>
 					</div>
 				</td>
-		    </tr>
+			</tr>
 			<tr>
-				<td colspan="2">
+		        <td colspan="3">
 					<div class="btn-group">
 						<a class="btn btn-success year active" id="2011">2011</a>
 						<a class="btn btn-success year" id="2012">2012</a>
@@ -172,7 +163,7 @@
 			<ul class="nav pull-right">
                 <li class="divider-vertical"></li>
                 <li><a href="http://programmemec.ma/" target="_blank">Accueil MEC</a></li>
-				<li><img style="vertical-align:middle;padding:10px;" src="img/2_logo-usaid.gif"/></li>
+				<li><img style="vertical-align:middle;padding:10px;" src="img/navlogo4.png"/></li>
             </ul>
           </div>
         </div>
@@ -191,6 +182,5 @@
   <script src="http://geosprocket.com/assets/cartodb/2.0.24/cartodb.js"></script>
   <script src="http://geosprocket.com/assets/bootstrap/js/bootstrap.min.js"></script>
   <script src="http://geosprocket.com/assets/leaflet/leaflet-hash.js"></script>
-  <script src="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/js/l.control2.geosearch.js"></script>
-  <script src="http://geosprocket.com/assets/leaflet/L.GeoSearch-master/src/js/l.geosearch.provider.google.js"></script>
+  <script src="js/l.geosearch.mod.js"></script>
 </html>
