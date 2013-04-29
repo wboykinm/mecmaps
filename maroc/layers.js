@@ -219,12 +219,12 @@
 
 	    var base_url = '../';
 
-	    $('#verts').click(function () {
+	    $('.theme').click(function () {
 	        var zoom = map.getZoom(),
 	            lat = map.getCenter().lat,
 	            lon = map.getCenter().lng;
 
-	        var new_url = base_url + 'verts#' + zoom + '/' + lat + '/' + lon;
+	        var new_url = base_url + $(this).attr('id') + '/index.html#' + zoom + '/' + lat + '/' + lon;
 
 	        $(this).attr("href", new_url);
 	    });
