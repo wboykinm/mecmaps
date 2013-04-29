@@ -36,14 +36,16 @@
 	    });
 				
 		var currentyear = $('.year.active').attr('id');
-
+		var active_layer = 'tout';
+		
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
+
 	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}} WHERE tout>0 AND year=" + currentyear,
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{marker-fill:#CCDDFF;marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');marker-width:20;}}"
+	        query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + currentyear,
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[" + active_layer + "<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[" + active_layer + ">1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}"
 		}
 
-	    var layers = [];
+		var layers = [];
 	    var LayerActions = {
 
 	        //Crops
@@ -193,7 +195,7 @@
 	        }
 	        
 	    }
-
+		
 	    cartodb.createLayer(map, layerUrl, layerOptions)
 	        .on('done', function (layer) {
 	        layer.infowindow.set('template', $('#infowindow_template').html());
@@ -232,6 +234,7 @@
 		$('.year').click(function () {
 			$('.year').removeClass('active');
 			$(this).addClass('active');
+			LayerActions[active_layer]();
 		});
 		
 //To redraw layers with the active crop type symbolized
@@ -239,8 +242,8 @@
 	        $('.lyr').removeClass('active');
 	        $(this).addClass('active');
 	        $('h2.switch-title').text($(this).text());
-			
-	        LayerActions[$(this).attr('id')]();
+			active_layer = $(this).attr('id')
+            LayerActions[active_layer]();
 	        $('#infowindow_template').html();
 	    });
 		
