@@ -105,6 +105,7 @@
 		$('.year').click(function () {
 			$('.year').removeClass('active');
 			$(this).addClass('active');
+			$('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
 			current_year = $(this).attr('id');
 			updateQuery();
 		});
@@ -114,7 +115,7 @@
 	    $('.lyr').click(function () {
 	        $('.lyr').removeClass('active');
 	        $(this).addClass('active');
-	        $('h2.switch-title').text($(this).text());
+	        $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
 			active_layer = $(this).attr('id')
             updateQuery();
 	    });
