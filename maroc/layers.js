@@ -59,7 +59,6 @@
 	        map.addLayer(layer);
 			layers.push(layer);
 	        map.addLayer(reference);
-
 	        
 	    }).on('error', function () {
 	        //log the error
@@ -106,6 +105,7 @@
 		$('.year').click(function () {
 			$('.year').removeClass('active');
 			$(this).addClass('active');
+			current_year = $(this).attr('id');
 			updateQuery();
 		});
 		
