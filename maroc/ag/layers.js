@@ -26,8 +26,8 @@
 	        })
 	    }).addTo(map);
 
-		//Define the baselayer and add it to the map
-	    L.tileLayer('http://a.tiles.mapbox.com/v3/dai.map-jfzz54yc/{z}/{x}/{y}.png', {
+		//Define the baselayer and add it to the map (terrain: dai.map-jfzz54yc)
+	    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-3xuspbkm/{z}/{x}/{y}.png', {
 	        attribution: 'MapBox'
 	    }).addTo(map);
 		
