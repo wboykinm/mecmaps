@@ -13,8 +13,8 @@
 	function init() {
 	    // initiate leaflet map    
 	    map = new L.Map('map', {
-	        center: [34.8172, -2.1849],
-	        zoom: 9,
+	        center: [33.8172, -5],
+	        zoom: 7,
 			minZoom: 6,
 			maxZoom: 14
 	    });
@@ -41,12 +41,12 @@
 		var active_layer = $('.lyr.active').attr('id');;
 		
 		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12/viz.json';
+	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/grant_gis1/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[" + active_layer + "<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[" + active_layer + ">1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}"
+	        query: "SELECT * FROM {{table_name}}",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=6]{marker-fill:#031148;marker-width:15;marker-line-color:#FFFFFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;}[zoom>6]{marker-file:url(http://asset.geosprocket.com/img/pin-m-park2+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
 		}
 
 		//Define layers array so you can put it through a julienne slicer later
@@ -68,18 +68,18 @@
 		//populated with the new "year" and "layer" selectors
 		function updateQuery() {
 			layers[0].setOptions ({
-				query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-				tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[" + active_layer + "<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[" + active_layer + ">1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}"
-			});
+	        query: "SELECT * FROM {{table_name}}",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=6]{marker-fill:#031148;marker-width:15;marker-line-color:#FFFFFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;}[zoom>6]{marker-file:url(http://asset.geosprocket.com/img/pin-m-park2+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
+		});
 		}
 		
 		
-		//To add and remove the reference overlay at the zoom 10 threshold
+		//To add and remove the reference overlay at the zoom 7 threshold
 	    map.on('moveend', function () {
-	        if (map.getZoom() > 10 && map.hasLayer(reference)) {
+	        if (map.getZoom() > 7 && map.hasLayer(reference)) {
 	            map.removeLayer(reference);
 	        }
-	        if (map.getZoom() <= 10 && map.hasLayer(reference) == false) {
+	        if (map.getZoom() <= 7 && map.hasLayer(reference) == false) {
 	            map.addLayer(reference);
 	        }
 	    });

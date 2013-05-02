@@ -44,39 +44,10 @@
          <div class="cartodb-popup-content-wrapper">
            <div class="cartodb-popup-content">
              <!-- content.data contains the field info -->
-             <h3 style="color:#333;">Parcelle {{content.data.name}}</h3><hr>
-             <table class="table table-condensed table-striped">
-			    <thead>
-					<tr><th>Cultures</th><th>ha/parcelle</th><tr>
-				</thead>
-				<tbody>
-					<tr><td>Betterave</td><td>{{content.data.bett}}</td></tr>
-					<tr><td>Ble</td><td>{{content.data.ble}}</td></tr>
-					<tr><td>Canal</td><td>{{content.data.canal}}</td></tr>
-					<tr><td>Clementier</td><td>{{content.data.clem}}</td></tr>
-					<tr><td>Eau</td><td>{{content.data.eau}}</td></tr>
-					<tr><td>Foret</td><td>{{content.data.foret}}</td></tr>
-					<tr><td>Fourrage</td><td>{{content.data.fourr}}</td></tr>
-					<tr><td>Fruit Dive</td><td>{{content.data.fruitd}}</td></tr>
-					<tr><td>Fruits</td><td>{{content.data.fruits}}</td></tr>
-					<tr><td>Habitat</td><td>{{content.data.habi}}</td></tr>
-					<tr><td>Inculte</td><td>{{content.data.incul}}</td></tr>
-					<tr><td>Jachere</td><td>{{content.data.jache}}</td></tr>
-					<tr><td>Legumineuse</td><td>{{content.data.legum}}</td></tr>
-					<tr><td>Luzerne</td><td>{{content.data.luze}}</td></tr>
-					<tr><td>Mais</td><td>{{content.data.mais}}</td></tr>
-					<tr><td>Maraichage</td><td>{{content.data.marai}}</td></tr>
-					<tr><td>Navel</td><td>{{content.data.navel}}</td></tr>
-					<tr><td>Olivier</td><td>{{content.data.oliv}}</td></tr>
-					<tr><td>Orge</td><td>{{content.data.orge}}</td></tr>
-					<tr><td>Oued</td><td>{{content.data.oued}}</td></tr>
-					<tr><td>Parcours</td><td>{{content.data.parc}}</td></tr>
-					<tr><td>Pomme de Terre</td><td>{{content.data.pdt}}</td></tr>
-					<tr><td>Route</td><td>{{content.data.route}}</td></tr>
-					<tr><td>Autres</td><td>{{content.data.autres}}</td></tr>
-				</tbody>
-			 </table>
-             
+             <h3 style="color:#333;">{{content.data.organization_name}}</h3>
+             <p>{{content.data.organization_city}}</p><hr>
+			 <p><strong>{{content.data.grant_title}}</strong></p>
+			 <p>{{content.data.grant_summary}}</p>
            </div>
          </div>
          <div class="cartodb-popup-tip-container"></div>
@@ -90,44 +61,9 @@
     <div id="menu">
 		<table class="table-condensed" style="max-width: 340px;">
 			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='autres'>Autres</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='bett'>Betterave</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='ble' class="selected">Ble</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='canal'>Canal</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='clem'>Clementier</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='eau'>Eau</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='foret'>Foret</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='fourr'>Fourrage</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='fruitd'>Fruit Dive</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='fruits'>Fruits</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='habi'>Habitat</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='incul'>Inculte</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='jache'>Jachere</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='legum'>Legumineuse</a></td>
-		    	<td><a class="btn btn-small btn-info lyr" id='luze'>Luzerne</a></td>
-			</tr>
-			<tr>
-			    <td><a class="btn btn-small btn-info lyr" id='mais'>Mais</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='marai'>Maraichage</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='navel'>Navel</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='oliv'>Olivier</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='orge'>Orge</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='oued'>Oued</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='parc'>Parcours</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='pdt'>Pomme de Terre</a></td>
-				<td><a class="btn btn-small btn-info lyr active" id='tout'>Tout</a></td>
+			  <td><a class="btn btn-small btn-info lyr active" id='bourses'>Bourses</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='form'>Formations</a></td>
+			  <td><a class="btn btn-small btn-info lyr" id='stations'>Stations Meteorologiques</a></td>
 			</tr>
 			
 			<tr>
@@ -141,8 +77,8 @@
 			<tr>
 		        <td colspan="3">
 					<div class="btn-group">
-						<a class="btn btn-success year active" id="2011">2011</a>
-						<a class="btn btn-success year" id="2012">2012</a>
+						<a class="btn btn-success year" id="2011">2011</a>
+						<a class="btn btn-success year active" id="2012">2012</a>
 					</div>
 				</td>
 		    </tr>
@@ -156,9 +92,9 @@
             <ul class="nav">
 			  <li><a class="brand">MECCartes</a></li>
               <li><a href="#" class="theme" id="affaires">Affaires</a></li>
-              <li class="active"><a href="#" class="theme active" id="ag">Agriculture</a></li>
+              <li><a href="#" class="theme" id="ag">Agriculture</a></li>
 			  <li><a href="#" class="theme" id="hidro">Hidrologie</a></li>
-			  <li><a href="#" class="theme" id="autres">Autres Activites</a></li>
+			  <li class="active"><a href="#" class="theme active" id="autres">Autres Activites</a></li>
             </ul>
 			<ul class="nav pull-right">
                 <li class="divider-vertical"></li>
@@ -172,9 +108,7 @@
     <div id="footer">
 		<div class="container">
 				<ul class="inline">
-					<li><h2 class="switch-title">Explorer l'agriculture du Maroc. </h2></li>
-					<li class="divider"></li>
-					<li><img src="img/legend1.png"/>   </li>
+					<li><h2 class="switch-title">Bourses Distribuees par MEC </h2></li>
 				</ul>  
          </div>
     </div>
