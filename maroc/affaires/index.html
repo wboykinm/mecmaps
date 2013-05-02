@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>MECMaps-Affaires</title>
+    <title>MECCartes-Affaires</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A data exploration tool">
     <meta name="author" content="DAI">
@@ -68,47 +68,6 @@
     <div id='map'></div>
     <div id="menu">
 		<table class="table-condensed" style="max-width: 340px;">
-			<!--<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='autres'>Autres</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='bett'>Betterave</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='ble' class="selected">Ble</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='canal'>Canal</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='clem'>Clementier</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='eau'>Eau</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='foret'>Foret</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='fourr'>Fourrage</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='fruitd'>Fruit Dive</a></td>
-			</tr>
-			<tr>
-			  <td><a class="btn btn-small btn-info lyr" id='fruits'>Fruits</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='habi'>Habitat</a></td>
-			  <td><a class="btn btn-small btn-info lyr" id='incul'>Inculte</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='jache'>Jachere</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='legum'>Legumineuse</a></td>
-		    	<td><a class="btn btn-small btn-info lyr" id='luze'>Luzerne</a></td>
-			</tr>
-			<tr>
-			    <td><a class="btn btn-small btn-info lyr" id='mais'>Mais</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='marai'>Maraichage</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='navel'>Navel</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='oliv'>Olivier</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='orge'>Orge</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='oued'>Oued</a></td>
-			</tr>
-			<tr>
-				<td><a class="btn btn-small btn-info lyr" id='parc'>Parcours</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='pdt'>Pomme de Terre</a></td>
-				<td><a class="btn btn-small btn-info lyr" id='tout'>Tout</a></td>
-			</tr>-->
-			
 			<tr>
 				<td colspan="1">
 					<div class="btn-group">
@@ -121,7 +80,7 @@
 		        <td colspan="1">
 					<div class="btn-group">
 						<a class="btn btn-success year active" id="2011">2011</a>
-						<a class="btn btn-success disabled year" id="2012">2012</a>
+						<a class="btn btn-success year disabled" id="2012">2012</a>
 					</div>
 				</td>
 		    </tr>
@@ -133,11 +92,11 @@
           
           <div class="nav-collapse collapse">
             <ul class="nav">
-			  <li><a class="brand">MECMaps</a></li>
-              <li class="active"><a href="#" class="theme" id="affaires">Affaires</a></li>
-              <li><a href="#" class="theme active" id="ag">Agriculture</a></li>
-			  <li><a href="#" class="theme" id="hydro">Hidrologie</a></li>
-			  <li><a href="#" class="theme" id="activities">Autres Activites</a></li>
+			  <li><a class="brand" href="../">MECCartes</a></li>
+              <li class="active"><a href="#" class="theme" id="affaires active">Affaires</a></li>
+              <li><a href="#" class="theme" id="ag">Agriculture</a></li>
+			  <li><a href="#" class="theme" id="hidro">Hidrologie</a></li>
+			  <li><a href="#" class="theme" id="autres">Autres Activites</a></li>
             </ul>
 			<ul class="nav pull-right">
                 <li class="divider-vertical"></li>
@@ -151,8 +110,7 @@
     <div id="footer">
 		<div class="container">
 				<ul class="inline">
-					<li><h2>Climat des Affaires</h2></li>
-					<li class="divider"></li>
+					<li><h2 class="switch-title">Climat des Affaires, 2011</h2></li>
 				</ul>  
          </div>
     </div>

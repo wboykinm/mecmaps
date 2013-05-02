@@ -26,65 +26,48 @@
 	        })
 	    }).addTo(map);
 
-
-	    L.tileLayer('http://a.tiles.mapbox.com/v3/dai.map-jfzz54yc/{z}/{x}/{y}.png', {
+		//Define the baselayer and add it to the map (normal terrain: dai.map-jfzz54yc)
+	    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-3xuspbkm/{z}/{x}/{y}.png', {
 	        attribution: 'MapBox'
 	    }).addTo(map);
-
-	    var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
-	        attribution: 'Openstreetmap Contributors'
-	    });
-				
-		var currentyear = $('.year.active').attr('id');
-		var active_layer = '2011';
 		
+		//Define the crop type layer and year by which buttons are active
+		var current_year = $('.year.active').attr('id');
+		
+		//Define the CartoDB Table
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/mec_business1/viz.json';
 
+		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
-	        query: "SELECT * FROM mec_business1 WHERE year LIKE '" + currentyear + "'",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-bank+031148.png);marker-opacity:0.8;marker-allow-overlap:true;}"
+	        query: "SELECT * FROM mec_business1 WHERE year LIKE '" + current_year + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
 		}
 
+		//Define layers array so you can put it through a julienne slicer later
 		var layers = [];
-	    var LayerActions = {
-
-	        //Crops
-
-	        2011: function () {
-	            layers[0].setQuery("SELECT * FROM {{table_name}} WHERE year LIKE '2011'");
-	            layers[0].setCartoCSS("Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-bank+031148.png);marker-opacity:0.8;marker-allow-overlap:true;}");
-	            return true;
-	        },
-			
-			2012: function () {
-	            layers[0].setQuery("SELECT * FROM {{table_name}} WHERE year LIKE '2012'");
-	            layers[0].setCartoCSS("Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-bank+031148.png);marker-opacity:0.8;marker-allow-overlap:true;}");
-	            return true;
-	        }
-				        
-	    }
 		
+		//Load the CartoDB layer between the mapbox layers, with a popup template
 	    cartodb.createLayer(map, layerUrl, layerOptions)
 	        .on('done', function (layer) {
 	        layer.infowindow.set('template', $('#infowindow_template').html());
 	        map.addLayer(layer);
-	        map.addLayer(reference);
-
-	        layers.push(layer);
+			layers.push(layer);
+	        
 	    }).on('error', function () {
 	        //log the error
 	    });
-//To add and remove the reference overlay at the zoom 10 threshold
-	    map.on('moveend', function () {
-	        if (map.getZoom() > 10 && map.hasLayer(reference)) {
-	            map.removeLayer(reference);
-	        }
-	        if (map.getZoom() <= 10 && map.hasLayer(reference) == false) {
-	            map.addLayer(reference);
-	        }
-	    });
-//To construct the nav links with the current location so the map doesn't pan 
-//when a new theme is selected
+
+		//Set the layer parameters in a function that reloads the map,
+		//populated with the new "year" and "layer" selectors
+		function updateQuery() {
+			layers[0].setOptions ({
+	        query: "SELECT * FROM mec_business1 WHERE year LIKE '" + current_year + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
+		});
+		}
+		
+		//To construct the nav links with the current location so the map doesn't pan 
+		//when a new theme is selected
 	    var hash = new L.Hash(map);
 
 	    var base_url = '../';
@@ -98,25 +81,28 @@
 
 	        $(this).attr("href", new_url);
 	    });
-//To redraw layers with the year attribute passed into layer.setQuery()		
+		
+		//THEMATIC FILTER #1: ACTIVE YEAR
+		//To redraw layers with the year attribute passed along		
 		$('.year').click(function () {
 			$('.year').removeClass('active');
 			$(this).addClass('active');
-			LayerActions[active_layer]();
-			$('#infowindow_template').html();
+			$('h2.switch-title').text("Climat des Affaires, " + $('.year.active').text());
+			current_year = $(this).attr('id');
+			updateQuery();
 		});
 		
-//To redraw layers with the active crop type symbolized
-	    $('.lyr').click(function () {
-	        $('.lyr').removeClass('active');
-	        $(this).addClass('active');
-	        $('h2.switch-title').text($(this).text());
-			active_layer = $(this).attr('id')
-            LayerActions[active_layer]();
-	        $('#infowindow_template').html();
-	    });
+		//THEMATIC FILTER #2: CROP TYPE
+		//To redraw layers with the active crop type symbolized
+	    //$('.lyr').click(function () {
+	    //    $('.lyr').removeClass('active');
+	     //   $(this).addClass('active');
+	     //   $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
+		//	active_layer = $(this).attr('id')
+         //   updateQuery();
+	    //});
 		
-//To pan between provinces		
+		//To pan between provinces		
 		$('.site').click(function () {
 			$('.site').removeClass('active');
 			$(this).addClass('active');
