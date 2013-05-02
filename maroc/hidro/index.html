@@ -101,12 +101,18 @@
               <li><a href="#" class="theme" id="affaires">Affaires</a></li>
               <li><a href="#" class="theme" id="ag">Agriculture</a></li>
 			  <li class="active"><a href="#" class="theme active" id="hidro">Hidrologie</a></li>
-			  <li><a href="#" class="theme" id="autres">Autres Activites</a></li>
+			  <li><a href="#" class="theme" id="autres">Autres</a></li>
             </ul>
 			<ul class="nav pull-right">
                 <li class="divider-vertical"></li>
-                <li><a href="http://programmemec.ma/" target="_blank">Accueil MEC</a></li>
-				<li><img style="vertical-align:middle;padding:10px;" src="img/navlogo4.png"/></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><small><i class="icon-download icon-white"></i> Telecharger <b class="caret"></b></small></a>
+					<ul class="dropdown-menu">
+						<li><a id="shp" href="http://dai.cartodb.com/api/v2/sql?q=SELECT cartodb_id,the_geom,anne,commune,cult_a,cult_b,cult_c,dossier,douar,fiche,has_irrig,id,irrig_rad,secteur,sup_tot,type FROM bassin_oriental_pt&format=shp" target="_blank">Shapefile</a></li>
+						<li><a id="geojson" href="http://dai.cartodb.com/api/v2/sql?q=SELECT cartodb_id,the_geom,anne,commune,cult_a,cult_b,cult_c,dossier,douar,fiche,has_irrig,id,irrig_rad,secteur,sup_tot,type FROM bassin_oriental_pt&format=geojson">GeoJSON</a></li>
+						<li><a id="csv" href="http://dai.cartodb.com/api/v2/sql?q=SELECT cartodb_id,the_geom,anne,commune,cult_a,cult_b,cult_c,dossier,douar,fiche,has_irrig,id,irrig_rad,secteur,sup_tot,type FROM bassin_oriental_pt&format=csv">CSV</a></li>
+					</ul>
+				</li>
+				<li><a href="http://programmemec.ma/" target="_blank" style="padding: 0px 0px 0px;"><img style="vertical-align:middle;padding:8px;" src="img/navlogo4.png"/></a></li>
             </ul>
           </div>
         </div>
