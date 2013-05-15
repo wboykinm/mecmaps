@@ -62,9 +62,9 @@
     <div id="menu">
 		<table class="table-condensed" style="max-width: 340px;">
 			<tr>
-			  <td><a class="btn btn-small btn-info lyr active" id='bourses'>Bourses</a></td>
-			  <td><a class="btn btn-small btn-info lyr disabled" id='form'>Formations</a></td>
-			  <td><a class="btn btn-small btn-info lyr disabled" id='stations'>Stations Meteorologiques</a></td>
+			  <td><a class="btn btn-small btn-info lyr active" id='grant'>Bourses</a></td>
+			  <!--<td><a class="btn btn-small btn-info lyr disabled" id='form'>Formations</a></td>-->
+			  <td><a class="btn btn-small btn-info lyr" id='meteo'>Stations Meteorologiques</a></td>
 			</tr>
 			
 			<tr>
@@ -101,10 +101,10 @@
                 <li class="divider-vertical"></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><small><i class="icon-download icon-white"></i> Telecharger <b class="caret"></b></small></a>
 					<ul class="dropdown-menu">
-						<li><a id="shp" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis1&format=shp" target="_blank">Shapefile</a></li>
-						<li><a id="geojson" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis1&format=geojson">GeoJSON</a></li>
-						<li><a id="kml" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis1&format=kml">KML</a></li>
-						<li><a id="csv" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis1&format=csv">CSV</a></li>
+						<li><a id="shp" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis2&format=shp" target="_blank">Shapefile</a></li>
+						<li><a id="geojson" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis2&format=geojson">GeoJSON</a></li>
+						<li><a id="kml" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis2&format=kml">KML</a></li>
+						<li><a id="csv" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM grant_gis2&format=csv">CSV</a></li>
 					</ul>
 				</li>
 				<li><a href="http://programmemec.ma/" target="_blank" style="padding: 0px 0px 0px;"><img style="vertical-align:middle;padding:8px;" src="img/navlogo4.png"/></a></li>

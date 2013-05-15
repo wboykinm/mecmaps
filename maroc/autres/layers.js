@@ -32,21 +32,21 @@
 	    }).addTo(map);
 		
 		//Define the reference overlay (just roads and labels from Mapbox)
-	    var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
+	    //var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
 	        attribution: 'Openstreetmap Contributors'
-	    });
+	    //});
 		
 		//Define the crop type layer and year by which buttons are active
 		var current_year = $('.year.active').attr('id');
 		var active_layer = $('.lyr.active').attr('id');;
 		
 		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/grant_gis1/viz.json';
+	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/grant_gis2/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}}",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=6]{marker-fill:#031148;marker-width:15;marker-line-color:#FFFFFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;}[zoom>6]{marker-file:url(http://asset.geosprocket.com/img/pin-m-park2+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
+	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='grant']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-park2+6a4a00.png);}[layer='meteo']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-triangle+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
 		}
 
 		//Define layers array so you can put it through a julienne slicer later
@@ -58,7 +58,7 @@
 	        layer.infowindow.set('template', $('#infowindow_template').html());
 	        map.addLayer(layer);
 			layers.push(layer);
-	        map.addLayer(reference);
+	        //map.addLayer(reference);
 	        
 	    }).on('error', function () {
 	        //log the error
@@ -68,21 +68,21 @@
 		//populated with the new "year" and "layer" selectors
 		function updateQuery() {
 			layers[0].setOptions ({
-	        query: "SELECT * FROM {{table_name}}",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=6]{marker-fill:#031148;marker-width:15;marker-line-color:#FFFFFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;}[zoom>6]{marker-file:url(http://asset.geosprocket.com/img/pin-m-park2+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
+	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='grant']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-park2+6a4a00.png);}[layer='meteo']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-triangle+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
 		});
 		}
 		
 		
 		//To add and remove the reference overlay at the zoom 7 threshold
-	    map.on('moveend', function () {
-	        if (map.getZoom() > 7 && map.hasLayer(reference)) {
-	            map.removeLayer(reference);
-	        }
-	        if (map.getZoom() <= 7 && map.hasLayer(reference) == false) {
-	            map.addLayer(reference);
-	        }
-	    });
+	    //map.on('moveend', function () {
+	    //    if (map.getZoom() > 7 && map.hasLayer(reference)) {
+	     //       map.removeLayer(reference);
+	    //    }
+	     //   if (map.getZoom() <= 7 && map.hasLayer(reference) == false) {
+	    //        map.addLayer(reference);
+	    //    }
+	    //});
 		
 		//To construct the nav links with the current location so the map doesn't pan 
 		//when a new theme is selected
