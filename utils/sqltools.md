@@ -30,6 +30,11 @@
     SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, canal, clem, eau, foret, fourr, fruitd, fruits, habi, incul, jache, legum, luze, mais, marai, name, navel, oliv, orge, oued, parc, pdt, route, year FROM ag_survey_2011
     UNION ALL
     SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, canal, clem, eau, foret, fourr, fruitd, fruits, habi, incul, jache, legum, luze, mais, marai, name, navel, oliv, orge, oued, parc, pdt, route, year FROM oriental_2012
+	
+## Merging when the attributes don't match (set the blanks to 0)
+	SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, canal, clem, eau, foret, fourr, fruitd, fruits, habi, incul, jache, legum, luze, mais, marai, name, navel, oliv, orge, oued, parc, pdt, route, tout, year FROM ag_survey_11_12_copy
+	UNION ALL
+	SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, 0 as canal, 0 as clem, eau, foret, fourr, 0 as fruitd, fruits, habi, incul, jache, legum, 0 as luze, mais, marai, sample as name, 0 as navel, 0 as oliv, orge, 0 as oued, parc, 0 as pdt, route, tout, year FROM summary_sample_points_doukkala_2012
 
 ## Creating an "Everything" column
     UPDATE ag_survey_11_12 SET tout=autres+bett+ble+canal+clem+eau+foret+fourr+fruitd+fruits+habi+incul+jache+legum+luze+mais+marai+navel+oliv+orge+oued+parc+pdt+route;
