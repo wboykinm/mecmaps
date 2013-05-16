@@ -37,7 +37,7 @@
 	    //});
 		
 		//Define the crop type layer and year by which buttons are active
-		var current_year = $('.year.active').attr('id');
+		//var current_year = $('.year.active').attr('id');
 		var active_layer = $('.lyr.active').attr('id');;
 		
 		//Define the CartoDB Table
@@ -102,20 +102,20 @@
 		
 		//THEMATIC FILTER #1: ACTIVE YEAR
 		//To redraw layers with the year attribute passed along		
-		$('.year').click(function () {
-			$('.year').removeClass('active');
-			$(this).addClass('active');
-			$('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
-			current_year = $(this).attr('id');
-			updateQuery();
-		});
+		//$('.year').click(function () {
+		//	$('.year').removeClass('active');
+		//	$(this).addClass('active');
+		//	$('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
+		//	current_year = $(this).attr('id');
+		//	updateQuery();
+		//});
 		
 		//THEMATIC FILTER #2: CROP TYPE
 		//To redraw layers with the active crop type symbolized
 	    $('.lyr').click(function () {
 	        $('.lyr').removeClass('active');
 	        $(this).addClass('active');
-	        $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
+	        $('h2.switch-title').text($('.lyr.active').text());
 			active_layer = $(this).attr('id')
             updateQuery();
 	    });
