@@ -38,7 +38,7 @@
 		
 		//Define the crop type layer and year by which buttons are active
 		//var current_year = $('.year.active').attr('id');
-		var active_layer = $('.lyr.active').attr('id');;
+		var active_layer = $('.lyr.active').attr('id');
 		
 		//Define the CartoDB Table
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/grant_gis2/viz.json';
