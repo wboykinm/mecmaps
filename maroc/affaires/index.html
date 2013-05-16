@@ -46,14 +46,15 @@
            <div class="cartodb-popup-content">
              <!-- content.data contains the field info -->
              <h3 style="color:#333;">{{content.data.name}}</h3><hr>
+			 <!--<img src="http://chart.googleapis.com/chart?chf=bg,s,67676700&chxl=0:|0|150|300&chxr=0,0,300&chxs=0,676767,10,0,lt,676767&chxt=r&chs=160x100&cht=ls&chco=DA3B15,80C65A,4582E7&chds=0,100,0,166,0,220&chd=t:{{content.data.perm2011}},{{content.data.perm2012}}|{{content.data.ent2011}},{{content.data.ent2012}}|{{content.data.coop2011}},{{content.data.coop2012}}&chls=2|2|2&chma=0,5" width="160" height="100" alt="" />-->
              <table class="table table-condensed table-striped">
 			    <thead>
-					<tr><th>Action de l'entreprise</th><th>Attendre (jours)</th><tr>
+					<tr><th>Action de l'entreprise</th><th>Attendre (jours) 2011</th><th>2012</th><tr>
 				</thead>
 				<tbody>
-					<tr><td>Obtenir un permis de construire</td><td>{{content.data.days2perm}}</td></tr>
-					<tr><td>Creation d'une entreprise</td><td>{{content.data.days2ent}}</td></tr>
-					<tr><td>Former une cooperative</td><td>{{content.data.days2coop}}</td></tr>
+					<tr><td>Obtenir un permis de construire</td><td>{{content.data.perm2011}}</td><td>{{content.data.perm2012}}</td></tr>
+					<tr><td>Creation d'une entreprise</td><td>{{content.data.ent2011}}</td><td>{{content.data.ent2012}}</td></tr>
+					<tr><td>Former une cooperative</td><td>{{content.data.coop2011}}</td><td>{{content.data.coop2012}}</td></tr>
 				</tbody>
 			 </table>
              
@@ -77,14 +78,14 @@
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<!--<tr>
 		        <td colspan="1">
 					<div class="btn-group">
 						<a class="btn btn-inverse year active" id="2011">2011</a>
 						<a class="btn btn-inverse year disabled" id="2012">2012</a>
 					</div>
 				</td>
-		    </tr>
+		    </tr>-->
 		</table>
     </div>
     <div class="navbar navbar-fixed-top">

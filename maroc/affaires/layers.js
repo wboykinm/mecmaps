@@ -32,14 +32,14 @@
 	    }).addTo(map);
 		
 		//Define the crop type layer and year by which buttons are active
-		var current_year = $('.year.active').attr('id');
+		//var current_year = $('.year.active').attr('id');
 		
 		//Define the CartoDB Table
 	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/mec_business1/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
-	        query: "SELECT * FROM mec_business1 WHERE year LIKE '" + current_year + "'",
+	        query: "SELECT * FROM mec_business1",
 	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
 		}
 
@@ -61,7 +61,7 @@
 		//populated with the new "year" and "layer" selectors
 		function updateQuery() {
 			layers[0].setOptions ({
-	        query: "SELECT * FROM mec_business1 WHERE year LIKE '" + current_year + "'",
+	        query: "SELECT * FROM mec_business1",
 	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
 		});
 		}
@@ -84,13 +84,13 @@
 		
 		//THEMATIC FILTER #1: ACTIVE YEAR
 		//To redraw layers with the year attribute passed along		
-		$('.year').click(function () {
-			$('.year').removeClass('active');
-			$(this).addClass('active');
-			$('h2.switch-title').text("Climat des Affaires, " + $('.year.active').text());
-			current_year = $(this).attr('id');
-			updateQuery();
-		});
+		//$('.year').click(function () {
+		//	$('.year').removeClass('active');
+		//	$(this).addClass('active');
+		//	$('h2.switch-title').text("Climat des Affaires, " + $('.year.active').text());
+		//	current_year = $(this).attr('id');
+		//	updateQuery();
+		//});
 		
 		//THEMATIC FILTER #2: CROP TYPE
 		//To redraw layers with the active crop type symbolized
