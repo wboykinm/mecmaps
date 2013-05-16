@@ -37,16 +37,16 @@
 	    });
 		
 		//Define the crop type layer and year by which buttons are active
-		var current_year = $('.year.active').attr('id');
-		//var active_layer = $('.lyr.active').attr('id');;
+		//var current_year = $('.year.active').attr('id');
+		var active_layer = $('.lyr.active').attr('id');
 		
 		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/bassin_oriental_pt/viz.json';
+	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/hidro1/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}}",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-fill:#055D00;marker-line-color:#FFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op: multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=9]{marker-width:[irrig_rad]/10;}[zoom<=12][zoom>9]{marker-width:[irrig_rad]/8;}[zoom>12]{marker-width:15;}}"
+	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='Puits']{marker-fill:#0F3B82;}[layer='Forage']{marker-fill:#C55305;}[layer='Bassin']{marker-fill:#C57F05;}marker-width:20;marker-line-color:#FFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
 		}
 
 		//Define layers array so you can put it through a julienne slicer later
@@ -68,8 +68,8 @@
 		//populated with the new "year" and "layer" selectors
 		function updateQuery() {
 			layers[0].setOptions ({
-	        query: "SELECT * FROM {{table_name}}",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-fill:#055D00;marker-line-color:#FFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op: multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=9]{marker-width:[irrig_rad]/10;}[zoom<=12][zoom>9]{marker-width:[irrig_rad]/8;}[zoom>12]{marker-width:15;}}"
+	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='Puits']{marker-fill:#0F3B82;}[layer='Forage']{marker-fill:#C55305;}[layer='Bassin']{marker-fill:#C57F05;}marker-width:20;marker-line-color:#FFF;marker-line-width:2;marker-line-opacity:0.9;marker-opacity:0.9;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
 		});
 		}
 		
@@ -110,15 +110,15 @@
 		//	updateQuery();
 		//});
 		
-		//THEMATIC FILTER #2: CROP TYPE
+		//THEMATIC FILTER #2: Feature Type
 		//To redraw layers with the active crop type symbolized
-	    //$('.lyr').click(function () {
-	    //    $('.lyr').removeClass('active');
-	     //   $(this).addClass('active');
-	     //   $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
-		//	active_layer = $(this).attr('id')
-         //   updateQuery();
-	   // });
+	    $('.lyr').click(function () {
+	        $('.lyr').removeClass('active');
+	        $(this).addClass('active');
+	        $('h2.switch-title').text('Hidrologie: ' + $('.lyr.active').text());
+			active_layer = $(this).attr('id')
+            updateQuery();
+	    });
 		
 		//To pan between provinces		
 		$('.site').click(function () {

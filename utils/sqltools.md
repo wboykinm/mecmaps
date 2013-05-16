@@ -35,6 +35,11 @@
 	SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, canal, clem, eau, foret, fourr, fruitd, fruits, habi, incul, jache, legum, luze, mais, marai, name, navel, oliv, orge, oued, parc, pdt, route, tout, year FROM ag_survey_11_12_copy
 	UNION ALL
 	SELECT the_geom, the_geom_webmercator, cartodb_id, autres, bett, ble, 0 as canal, 0 as clem, eau, foret, fourr, 0 as fruitd, fruits, habi, incul, jache, legum, 0 as luze, mais, marai, sample as name, 0 as navel, 0 as oliv, orge, 0 as oued, parc, 0 as pdt, route, tout, year FROM summary_sample_points_doukkala_2012
+	
+## Merging Water features
+	SELECT cartodb_id, the_geom, the_geom_webmercator, aquifere, code_enque, conductivi, consomande, consomanes, date_enque, datereal, debitdecl, debitmoyes, diametre, fonction, hautrepere, layer, natupprev, nd, niveaucrep, ns, nume_ire, ph, placement, popup1, popup2, popup3, popup4, pression, province, pt, qualite, realisatio, relecomp, temperatur, tempremo, tendance, typecomp, usage, voldeclar FROM hidrologie1
+	UNION ALL
+	SELECT cartodb_id, the_geom, the_geom_webmercator, NULL AS aquifere, NULL AS code_enque, NULL AS conductivi, NULL AS consomande, NULL AS consomanes, NULL AS date_enque, NULL AS datereal, NULL AS debitdecl, NULL AS debitmoyes, NULL AS diametre, NULL AS fonction, NULL AS hautrepere, layer, NULL AS natupprev, NULL AS nd, NULL AS niveaucrep, NULL AS ns, dossier AS nume_ire, NULL AS ph, NULL AS placement, popup1, popup2, popup3, popup4, NULL AS pression, 'Oriental' AS province, NULL AS pt, NULL AS qualite, anne AS realisatio, NULL AS relecomp, NULL AS temperatur, NULL AS tempremo, NULL AS tendance, NULL AS typecomp, NULL AS usage, NULL AS voldeclar FROM bassin_oriental_pt
 
 ## Creating an "Everything" column
     UPDATE ag_survey_11_12 SET tout=autres+bett+ble+canal+clem+eau+foret+fourr+fruitd+fruits+habi+incul+jache+legum+luze+mais+marai+navel+oliv+orge+oued+parc+pdt+route;
