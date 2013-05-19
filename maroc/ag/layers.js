@@ -46,7 +46,7 @@
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
 	        query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[" + active_layer + "<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[" + active_layer + ">1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}"
+	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}"
 		}
 
 		//Define layers array so you can put it through a julienne slicer later
@@ -69,17 +69,17 @@
 		function updateQuery() {
 			layers[0].setOptions ({
 				query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-				tile_style: "Map{buffer-size:512;}#{{table_name}}{[zoom<=10]{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-width:20;marker-line-color:#fff;marker-line-width:1;marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}[zoom>10]{[" + active_layer + "<=1]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-1.png');}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-2.png');}[" + active_layer + ">1.5]{marker-file:url('http://geosprocket.com/assets/img/wheatblue-3.png');}marker-width:20;}}"
+				tile_style: "Map{buffer-size:512;}#{{table_name}}{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}"
 			});
 		}
 		
 		
 		//To add and remove the reference overlay at the zoom 10 threshold
 	    map.on('moveend', function () {
-	        if (map.getZoom() > 10 && map.hasLayer(reference)) {
+	        if (map.getZoom() > 13 && map.hasLayer(reference)) {
 	            map.removeLayer(reference);
 	        }
-	        if (map.getZoom() <= 10 && map.hasLayer(reference) == false) {
+	        if (map.getZoom() <= 13 && map.hasLayer(reference) == false) {
 	            map.addLayer(reference);
 	        }
 	    });
