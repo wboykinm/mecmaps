@@ -115,7 +115,7 @@
 	    $('.lyr').click(function () {
 	        $('.lyr').removeClass('active');
 	        $(this).addClass('active');
-	        $('h2.switch-title').text('Hidrologie: ' + $('.lyr.active').text());
+	        $('h2.switch-title').text('Hydrologie: ' + $('.lyr.active').text());
 			active_layer = $(this).attr('id')
             updateQuery();
 	    });
