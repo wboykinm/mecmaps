@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>MECMaps-Hydrology</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A data exploration tool">
+    <meta name="author" content="DAI">
+    <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.css" />
+    <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-cosmo.css" />
+    <link rel="stylesheet" href="css/l.geosearch.mod.css" />
+    <!--<link href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">-->
+    <!--[if lte IE 8]>
+    <link rel="stylesheet"http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.ie.css" />
+    <![endif]-->  
+    <style>
+      html, body {width:100%; height:100%; padding: 0; margin: 0;}
+      #map {width: 100%; height:100%; background: black; z-index:1;}
+      #menu { position: absolute; top: 110px; right: 10px; width: 290px; height:60px; background: transparent; z-index:10; text-align: center;}
+      #footer {
+      position:absolute;
+      bottom:0px;
+      left:0px;
+      right:0px;
+      background:#008a01;
+      z-index:999;
+      overflow:auto;
+      /*height:160px;*/
+      padding:5px;
+      opacity:0.95;
+      }
+	  h2{color:#fff;}
+      .leaflet-container .leaflet-control-zoom {margin-top:55;}
+	  	  
+	ul.inline > li, ol.inline > li {
+    display: inline-block;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+    </style>
+    <script type="infowindow/html" id="infowindow_template">
+      <div class="cartodb-popup">
+         <a href="#close" class="cartodb-popup-close-button close">x</a>
+         <div class="cartodb-popup-content-wrapper">
+           <div class="cartodb-popup-content">
+             <!-- content.data contains the field info -->
+             <h3 style="color:#333;">{{content.data.layer}} {{content.data.nume_ire}}</h3><hr>
+             <table class="table table-condensed table-striped">
+				<tbody>{{{content.data.popup1}}}{{{content.data.popup2}}}{{{content.data.popup3}}}{{{content.data.popup4}}}</tbody>
+			 </table> 
+           </div>
+         </div>
+         <div class="cartodb-popup-tip-container"></div>
+      </div>
+    </script>
+    <script src="layers.js"></script>
+  </head>
+  <body onload="init()">
+    
+    <div id='map'></div>
+    <div id="menu">
+		<table class="table-condensed" style="max-width: 340px;">
+			<tr>
+			  <td><a class="btn btn-small btn-warning lyr active" id='Bassin'>Irrigation Basins</a></td>
+			  <td><a class="btn btn-small btn-warning lyr" id='Puits'>Wells</a></td>
+			  <td><a class="btn btn-small btn-warning lyr" id='Forage' class="selected">Boreholes</a></td>
+			</tr>
+			
+			<tr>
+				<td colspan="3">
+					<div class="btn-group">
+						<a class="btn btn-inverse site active" id="oriental" data="[34.8262, -2.2920], 9">Oriental</a>
+						<a class="btn btn-inverse site" id="doukkala" data="[32.8069, -8.3427], 9">Doukkala</a>
+					</div>
+				</td>
+			</tr>
+			<!--<tr>
+		        <td colspan="3">
+					<div class="btn-group">
+						<a class="btn btn-inverse year active" id="2011">2011</a>
+						<a class="btn btn-inverse year disabled" id="2012">2012</a>
+					</div>
+				</td>
+		    </tr>-->
+		</table>
+    </div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+			  <li><a class="brand" href="../">MECMaps</a></li>
+              <li><a href="#" class="theme btn-primary" id="affaires">Business</a></li>
+              <li><a href="#" class="theme btn-info" id="ag">Agriculture</a></li>
+			  <li class="active"><a href="#" class="theme btn-success active" id="hidro">Hydrology</a></li>
+			  <li><a href="#" class="theme btn-warning" id="autres">Other</a></li>
+            </ul>
+			<ul class="nav pull-right">
+                <li class="divider-vertical"></li>
+                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><small><i class="icon-download icon-white"></i> Download <b class="caret"></b></small></a>
+					<ul class="dropdown-menu">
+						<li><a id="shp" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM hidro1&format=shp" target="_blank">Shapefile</a></li>
+						<li><a id="geojson" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM hidro1&format=geojson">GeoJSON</a></li>
+						<li><a id="kml" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM hidro1&format=kml">KML</a></li>
+						<li><a id="csv" href="http://dai.cartodb.com/api/v2/sql?q=SELECT * FROM hidro1&format=csv">CSV</a></li>
+					</ul>
+				</li>
+				<li><a href="http://programmemec.ma/" target="_blank" style="padding: 0px 0px 0px;"><img style="vertical-align:middle;padding:8px;" src="img/navlogo4.png"/></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="footer">
+		<div class="container">
+				<ul class="inline">
+					<li><h2 class="switch-title">Hydrology: Irrigation Basins </h2></li>
+					<li class="divider"></li>
+				</ul>  
+         </div>
+    </div>
+  </body>
+  <script src="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.js"></script>
+  <script src="http://d268cm0091e6xs.cloudfront.net/bootstrap/js/bootstrap.min.js"></script>
+  <script src="http://d268cm0091e6xs.cloudfront.net/leaflet/leaflet-hash.js"></script>
+  <script src="js/l.geosearch.mod.js"></script>
+</html>
