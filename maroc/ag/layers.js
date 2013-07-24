@@ -41,7 +41,7 @@
 		var active_layer = $('.lyr.active').attr('id');;
 		
 		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_12_all/viz.json';
+	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_13_all/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
 	    var layerOptions = {
