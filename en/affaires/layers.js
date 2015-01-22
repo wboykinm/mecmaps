@@ -10,7 +10,7 @@
 
 	var map;
 
-	function init() {
+	function main() {
 	    // initiate leaflet map    
 	    map = new L.Map('map', {
 	        center: [34.8172, -2.1849],
@@ -30,41 +30,30 @@
 	    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-3xuspbkm/{z}/{x}/{y}.png', {
 	        attribution: 'MapBox'
 	    }).addTo(map);
-		
-		//Define the crop type layer and year by which buttons are active
-		//var current_year = $('.year.active').attr('id');
-		
-		//Define the CartoDB Table
-	  var layerUrl = 'http://dai.cartodb.com/api/v2/viz/mec_business1/viz.json';
+	
+		  var vertsTable = 'mec_business1';
+		  var cartoStuff = "{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}";
 
-		//Set SQL and CartoCSS parameters for the initial page load
-	  var layerOptions = {
-      query: "SELECT * FROM mec_business1",
-      tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
-		}
-
-		//Define layers array so you can put it through a julienne slicer later
-		var layers = [];
-		
-		//Load the CartoDB layer between the mapbox layers, with a popup template
-	    cartodb.createLayer(map, layerUrl, layerOptions)
-	        .on('done', function (layer) {
-	        layer.infowindow.set('template', $('#infowindow_template').html());
-	        map.addLayer(layer);
-			layers.push(layer);
-	        
-	    }).on('error', function () {
-	        //log the error
-	    });
-
-		//Set the layer parameters in a function that reloads the map,
-		//populated with the new "year" and "layer" selectors
-		function updateQuery() {
-			layers[0].setOptions ({
-	        query: "SELECT * FROM mec_business1",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
-		});
-		}
+		  // Create viz at runtime:
+		  // create a layer with 1 sublayer
+		  var layerDef; 
+		  cartodb.createLayer(map, {
+		    user_name: 'dai',
+		    type: 'cartodb',
+		    sublayers: [{
+		      sql: "SELECT * FROM " + vertsTable,
+		      cartocss: "#" + vertsTable + " " + cartoStuff,
+		      interactivity: 'cartodb_id,name,perm2011,perm2012,ent2011,ent2012,coop2011,coop2012'
+		    }]
+		  })
+		  .addTo(map)
+		  .done(function(layer) {
+		      layerDef = layer.getSubLayer(0);
+		      var infowindow = cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id','name','perm2011','perm2012','ent2011','ent2012','coop2011','coop2012'])
+		      infowindow.model.set('template', function(data) {
+		          return _.template($('#infowindow_template').html())(data);
+		      });
+		  }); // add the layer to our map which already contains 1 sublayer
 		
 		//To construct the nav links with the current location so the map doesn't pan 
 		//when a new theme is selected
@@ -82,26 +71,6 @@
 	        $(this).attr("href", new_url);
 	    });
 		
-		//THEMATIC FILTER #1: ACTIVE YEAR
-		//To redraw layers with the year attribute passed along		
-		//$('.year').click(function () {
-		//	$('.year').removeClass('active');
-		//	$(this).addClass('active');
-		//	$('h2.switch-title').text("Climat des Affaires, " + $('.year.active').text());
-		//	current_year = $(this).attr('id');
-		//	updateQuery();
-		//});
-		
-		//THEMATIC FILTER #2: CROP TYPE
-		//To redraw layers with the active crop type symbolized
-	    //$('.lyr').click(function () {
-	    //    $('.lyr').removeClass('active');
-	     //   $(this).addClass('active');
-	     //   $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
-		//	active_layer = $(this).attr('id')
-         //   updateQuery();
-	    //});
-		
 		//To pan between provinces		
 		$('.site').click(function () {
 			$('.site').removeClass('active');
@@ -114,4 +83,6 @@
 			}
 		});
 
-	}
+	};
+
+	window.onload = main;
