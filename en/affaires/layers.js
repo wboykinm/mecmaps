@@ -35,12 +35,12 @@
 		//var current_year = $('.year.active').attr('id');
 		
 		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/mec_business1/viz.json';
+	  var layerUrl = 'http://dai.cartodb.com/api/v2/viz/mec_business1/viz.json';
 
 		//Set SQL and CartoCSS parameters for the initial page load
-	    var layerOptions = {
-	        query: "SELECT * FROM mec_business1",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
+	  var layerOptions = {
+      query: "SELECT * FROM mec_business1",
+      tile_style: "Map{buffer-size:512;}#{{table_name}}{marker-file:url(http://asset.geosprocket.com/img/pin-m-bank+031148.png);marker-allow-overlap:true;}"
 		}
 
 		//Define layers array so you can put it through a julienne slicer later
