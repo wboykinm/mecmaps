@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A data exploration tool">
     <meta name="author" content="DAI">
-    <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.css" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
     <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-cosmo.css" />
     <link rel="stylesheet" href="css/l.geosearch.mod.css" />
     <!--<link href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">-->
@@ -30,7 +30,7 @@
       opacity:0.95;
       }
 	  h2{color:#fff;}
-      .leaflet-container .leaflet-control-zoom {margin-top:55;}
+      .leaflet-container .leaflet-control-zoom {margin-top:65px;}
 	  	  
 	ul.inline > li, ol.inline > li {
     display: inline-block;
@@ -45,10 +45,10 @@
          <div class="cartodb-popup-content-wrapper">
            <div class="cartodb-popup-content">
              <!-- content.data contains the field info -->
-             <h3 style="color:#333;">{{content.data.organization_name}}</h3>
-             <p>{{content.data.organization_city}}</p><hr>
-			 <p><strong>{{content.data.grant_title}}</strong></p>
-			 <p>{{content.data.grant_summary}}</p>
+             <h3 style="color:#333;"><%=content.data.organization_name%></h3>
+             <p><%=content.data.organization_city%></p><hr>
+      			 <p><strong><%=content.data.grant_title%></strong></p>
+      			 <p><%=content.data.grant_summary%></p>
            </div>
          </div>
          <div class="cartodb-popup-tip-container"></div>
@@ -56,14 +56,13 @@
     </script>
     <script src="layers.js"></script>
   </head>
-  <body onload="init()">
+  <body>
     
     <div id='map'></div>
     <div id="menu">
 		<table class="table-condensed" style="max-width: 340px;">
 			<tr>
 			  <td><a class="btn btn-small btn-info lyr active" id='grant'>Grants</a></td>
-			  <!--<td><a class="btn btn-small btn-info lyr disabled" id='form'>Formations</a></td>-->
 			  <td><a class="btn btn-small btn-info lyr" id='meteo'>Meteorological Stations</a></td>
 			</tr>
 			
@@ -75,14 +74,6 @@
 					</div>
 				</td>
 			</tr>
-			<!--<tr>
-		        <td colspan="3">
-					<div class="btn-group">
-						<a class="btn btn-inverse year" id="2011">2011</a>
-						<a class="btn btn-inverse year active" id="2012">2012</a>
-					</div>
-				</td>
-		    </tr>-->
 		</table>
     </div>
     <div class="navbar navbar-fixed-top">
@@ -97,7 +88,7 @@
 			  <li><a href="#" class="theme btn-success" id="hidro">Hydrology</a></li>
 			  <li class="active"><a href="#" class="theme btn-warning active" id="autres">Other</a></li>
             </ul>
-			<ul class="nav pull-right">
+			       <ul class="nav pull-right">
                 <li class="divider-vertical"></li>
                 <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><small><i class="icon-download icon-white"></i> Download <b class="caret"></b></small></a>
 					<ul class="dropdown-menu">
@@ -121,7 +112,7 @@
          </div>
     </div>
   </body>
-  <script src="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.js"></script>
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
   <script src="http://d268cm0091e6xs.cloudfront.net/bootstrap/js/bootstrap.min.js"></script>
   <script src="http://d268cm0091e6xs.cloudfront.net/leaflet/leaflet-hash.js"></script>
   <script src="js/l.geosearch.mod.js"></script>

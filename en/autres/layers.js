@@ -10,7 +10,7 @@
 
 	var map;
 
-	function init() {
+	function main() {
 	    // initiate leaflet map    
 	    map = new L.Map('map', {
 	        center: [33.8172, -5],
@@ -31,58 +31,37 @@
 	        attribution: 'MapBox'
 	    }).addTo(map);
 		
-		//Define the reference overlay (just roads and labels from Mapbox)
-	    //var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
-	        attribution: 'Openstreetmap Contributors'
-	    //});
-		
 		//Define the crop type layer and year by which buttons are active
 		//var current_year = $('.year.active').attr('id');
 		var active_layer = $('.lyr.active').attr('id');
-		
-		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/grant_gis2/viz.json';
 
-		//Set SQL and CartoCSS parameters for the initial page load
-	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='grant']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-park2+6a4a00.png);}[layer='meteo']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-triangle+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
-		}
+		///////////////////////
 
-		//Define layers array so you can put it through a julienne slicer later
-		var layers = [];
-		
-		//Load the CartoDB layer between the mapbox layers, with a popup template
-	    cartodb.createLayer(map, layerUrl, layerOptions)
-	        .on('done', function (layer) {
-	        layer.infowindow.set('template', $('#infowindow_template').html());
-	        map.addLayer(layer);
-			layers.push(layer);
-	        //map.addLayer(reference);
-	        
-	    }).on('error', function () {
-	        //log the error
-	    });
+		var vertsTable = 'grant_gis2';
+		var	cartoStuff = "{[layer='grant']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-park2+6a4a00.png);}[layer='meteo']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-triangle+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}";
+		var	sqlStuff = "SELECT * FROM " + vertsTable + " WHERE layer = '" + active_layer + "'";
 
-		//Set the layer parameters in a function that reloads the map,
-		//populated with the new "year" and "layer" selectors
-		function updateQuery() {
-			layers[0].setOptions ({
-	        query: "SELECT * FROM {{table_name}} WHERE layer = '" + active_layer + "'",
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[layer='grant']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-park2+6a4a00.png);}[layer='meteo']{marker-file:url(http://api.tiles.mapbox.com/v3/marker/pin-m-triangle+031148.png);}marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;}"
-		});
-		}
-		
-		
-		//To add and remove the reference overlay at the zoom 7 threshold
-	    //map.on('moveend', function () {
-	    //    if (map.getZoom() > 7 && map.hasLayer(reference)) {
-	     //       map.removeLayer(reference);
-	    //    }
-	     //   if (map.getZoom() <= 7 && map.hasLayer(reference) == false) {
-	    //        map.addLayer(reference);
-	    //    }
-	    //});
+	  // Create viz at runtime:
+	  // create a layer with 1 sublayer
+	  var layerDef; 
+	  cartodb.createLayer(map, {
+	    user_name: 'dai',
+	    type: 'cartodb',
+	    sublayers: [{
+	      sql: sqlStuff,
+	      cartocss: "#" + vertsTable + " " + cartoStuff,
+	      interactivity: 'cartodb_id,organization_name,organization_city,grant_title,grant_summary'
+	    }]
+	  })
+	  .addTo(map)
+	  .done(function(layer) {
+	      layerDef = layer.getSubLayer(0);
+	      var infowindow = cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id','organization_name','organization_city','grant_title','grant_summary'])
+	      infowindow.model.set('template', function(data) {
+	          return _.template($('#infowindow_template').html())(data);
+	      });
+	  }); // add the layer to our map which already contains 1 sublayer
+
 		
 		//To construct the nav links with the current location so the map doesn't pan 
 		//when a new theme is selected
@@ -100,24 +79,15 @@
 	        $(this).attr("href", new_url);
 	    });
 		
-		//THEMATIC FILTER #1: ACTIVE YEAR
-		//To redraw layers with the year attribute passed along		
-		//$('.year').click(function () {
-		//	$('.year').removeClass('active');
-		//	$(this).addClass('active');
-		//	$('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
-		//	current_year = $(this).attr('id');
-		//	updateQuery();
-		//});
-		
 		//THEMATIC FILTER #2: CROP TYPE
 		//To redraw layers with the active crop type symbolized
 	    $('.lyr').click(function () {
 	        $('.lyr').removeClass('active');
 	        $(this).addClass('active');
 	        $('h2.switch-title').text($('.lyr.active').text());
-			active_layer = $(this).attr('id')
-            updateQuery();
+					active_layer = $(this).attr('id')
+          layerDef.setSQL("Select * FROM " + vertsTable + " WHERE layer = '" + active_layer + "'");
+        	//layerDef.setCartoCSS("#" + vertsTable + " " + layerDeets[0].cartocss);
 	    });
 		
 		//To pan between provinces		
@@ -133,3 +103,5 @@
 		});
 
 	}
+
+	window.onload = main;
