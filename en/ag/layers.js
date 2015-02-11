@@ -10,7 +10,7 @@
 
 	var map;
 
-	function init() {
+	function main() {
 	    // initiate leaflet map    
 	    map = new L.Map('map', {
 	        center: [34.8172, -2.1849],
@@ -38,50 +38,41 @@
 		
 		//Define the crop type layer and year by which buttons are active
 		var current_year = $('.year.active').attr('id');
-		var active_layer = $('.lyr.active').attr('id');;
-		
-		//Define the CartoDB Table
-	    var layerUrl = 'http://dai.cartodb.com/api/v1/viz/ag_survey_11_13_all/viz.json';
+		var active_layer = $('.lyr.active').attr('id');
 
-		//Set SQL and CartoCSS parameters for the initial page load
-	    var layerOptions = {
-	        query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-	        tile_style: "Map{buffer-size:512;}#{{table_name}}{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}"
-		}
+		var vertsTable = 'ag_survey_11_13_all';
+		var	cartoStuff = "{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}";
+		var	sqlStuff = "SELECT * FROM " + vertsTable + " WHERE " + active_layer + ">0 AND year=" + current_year;
 
-		//Define layers array so you can put it through a julienne slicer later
-		var layers = [];
-		
-		//Load the CartoDB layer between the mapbox layers, with a popup template
-	    cartodb.createLayer(map, layerUrl, layerOptions)
-	        .on('done', function (layer) {
-	        layer.infowindow.set('template', $('#infowindow_template').html());
-	        map.addLayer(layer);
-			layers.push(layer);
-	        map.addLayer(reference);
-	        
-	    }).on('error', function () {
-	        //log the error
-	    });
-
-		//Set the layer parameters in a function that reloads the map,
-		//populated with the new "year" and "layer" selectors
-		function updateQuery() {
-			layers[0].setOptions ({
-				query: "SELECT * FROM {{table_name}} WHERE " + active_layer + ">0 AND year=" + current_year,
-				tile_style: "Map{buffer-size:512;}#{{table_name}}{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}"
-			});
-		}
-		
+	  // Create viz at runtime:
+	  // create a layer with 1 sublayer
+	  var layerDef; 
+	  cartodb.createLayer(map, {
+	    user_name: 'dai',
+	    type: 'cartodb',
+	    sublayers: [{
+	      sql: sqlStuff,
+	      cartocss: "#" + vertsTable + " " + cartoStuff,
+	      interactivity: 'cartodb_id, name, bett, ble, canal, clem, eau, foret, fourr, fruitd, fruits, habi, incul, jache, legum, luze, mais, marai, navel, oliv, orge, oued, parc, pdt, route, autres'
+	    }]
+	  })
+	  .addTo(map)
+	  .done(function(layer) {
+	      layerDef = layer.getSubLayer(0);
+	      var infowindow = cdb.vis.Vis.addInfowindow(map, layer.getSubLayer(0), ['cartodb_id','name','bett','ble','canal','clem','eau','foret','fourr','fruitd','fruits','habi','incul','jache','legum','luze','mais','marai','navel','oliv','orge','oued','parc','pdt','route','autres'])
+	      infowindow.model.set('template', function(data) {
+	          return _.template($('#infowindow_template').html())(data);
+	      });
+	  }); // add the layer to our map which already contains 1 sublayer
 		
 		//To add and remove the reference overlay at the zoom 10 threshold
 	    map.on('moveend', function () {
-	        if (map.getZoom() > 13 && map.hasLayer(reference)) {
-	            map.removeLayer(reference);
-	        }
-	        if (map.getZoom() <= 13 && map.hasLayer(reference) == false) {
-	            map.addLayer(reference);
-	        }
+        if (map.getZoom() > 13 && map.hasLayer(reference)) {
+            map.removeLayer(reference);
+        }
+        if (map.getZoom() <= 13 && map.hasLayer(reference) == false) {
+            map.addLayer(reference);
+        }
 	    });
 		
 		//To construct the nav links with the current location so the map doesn't pan 
@@ -107,18 +98,20 @@
 			$(this).addClass('active');
 			$('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
 			current_year = $(this).attr('id');
-			updateQuery();
+			layerDef.setSQL("SELECT * FROM " + vertsTable + " WHERE " + active_layer + ">0 AND year=" + current_year);
+			layerDef.setCartoCSS("#" + vertsTable + " " + "{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}");
 		});
 		
 		//THEMATIC FILTER #2: CROP TYPE
 		//To redraw layers with the active crop type symbolized
-	    $('.lyr').click(function () {
-	        $('.lyr').removeClass('active');
-	        $(this).addClass('active');
-	        $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
-			active_layer = $(this).attr('id')
-            updateQuery();
-	    });
+    $('.lyr').click(function () {
+      $('.lyr').removeClass('active');
+      $(this).addClass('active');
+      $('h2.switch-title').text($('.lyr.active').text() + ", " + $('.year.active').text());
+			active_layer = $(this).attr('id');
+			layerDef.setSQL("SELECT * FROM " + vertsTable + " WHERE " + active_layer + ">0 AND year=" + current_year);
+			layerDef.setCartoCSS("#" + vertsTable + " " + "{[" + active_layer + "<=1]{marker-fill:#CCDDFF;}[" + active_layer + ">1][" + active_layer + "<=1.5]{marker-fill:#6677B1;}[" + active_layer + ">1.5]{marker-fill:#00114B;}marker-line-opacity:0.4;marker-opacity:0.8;marker-comp-op:multiply;marker-type:ellipse;marker-placement:point;marker-allow-overlap:true;marker-clip:false;marker-multi-policy:largest;[zoom<=10]{marker-width:20;marker-line-color:#00114B;marker-line-width:0.4;}[zoom>10]{marker-width:30;marker-line-color:#00114B;marker-line-width:1.4;}}");
+    });
 		
 		//To pan between provinces		
 		$('.site').click(function () {
@@ -133,3 +126,5 @@
 		});
 
 	}
+
+	window.onload = main;

@@ -2,17 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>MECCartes-Hydrologie</title>
+    <title>MECMaps-Hydrology</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A data exploration tool">
     <meta name="author" content="DAI">
-    <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.css" />
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/3.11/themes/css/cartodb.css" />
     <link rel="stylesheet" href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-cosmo.css" />
     <link rel="stylesheet" href="css/l.geosearch.mod.css" />
-    <!--<link href="http://d268cm0091e6xs.cloudfront.net/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">-->
-    <!--[if lte IE 8]>
-    <link rel="stylesheet"http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.ie.css" />
-    <![endif]-->  
     <style>
       html, body {width:100%; height:100%; padding: 0; margin: 0;}
       #map {width: 100%; height:100%; background: black; z-index:1;}
@@ -29,10 +25,10 @@
       padding:5px;
       opacity:0.95;
       }
-	  h2{color:#fff;}
-      .leaflet-container .leaflet-control-zoom {margin-top:55;}
-	  	  
-	ul.inline > li, ol.inline > li {
+    h2{color:#fff;}
+      .leaflet-container .leaflet-control-zoom {margin-top:55px;}
+        
+  ul.inline > li, ol.inline > li {
     display: inline-block;
     padding-right: 5px;
     padding-left: 5px;
@@ -45,9 +41,9 @@
          <div class="cartodb-popup-content-wrapper">
            <div class="cartodb-popup-content">
              <!-- content.data contains the field info -->
-             <h3 style="color:#333;">{{content.data.layer}} {{content.data.nume_ire}}</h3><hr>
+             <h3 style="color:#333;"><%=content.data.layer%> <%=content.data.nume_ire%></h3><hr>
              <table class="table table-condensed table-striped">
-				<tbody>{{{content.data.popup1}}}{{{content.data.popup2}}}{{{content.data.popup3}}}{{{content.data.popup4}}}</tbody>
+				<tbody><%=content.data.popup1%><%=content.data.popup2%><%=content.data.popup3%><%=content.data.popup4%></tbody>
 			 </table> 
            </div>
          </div>
@@ -56,7 +52,7 @@
     </script>
     <script src="layers.js"></script>
   </head>
-  <body onload="init()">
+  <body>
     
     <div id='map'></div>
     <div id="menu">
@@ -75,14 +71,6 @@
 					</div>
 				</td>
 			</tr>
-			<!--<tr>
-		        <td colspan="3">
-					<div class="btn-group">
-						<a class="btn btn-inverse year active" id="2011">2011</a>
-						<a class="btn btn-inverse year disabled" id="2012">2012</a>
-					</div>
-				</td>
-		    </tr>-->
 		</table>
     </div>
     <div class="navbar navbar-fixed-top">
@@ -122,7 +110,7 @@
          </div>
     </div>
   </body>
-  <script src="http://d268cm0091e6xs.cloudfront.net/cartodb/2.0.24/cartodb.js"></script>
+  <script src="http://libs.cartocdn.com/cartodb.js/v3/3.11/cartodb.js"></script>
   <script src="http://d268cm0091e6xs.cloudfront.net/bootstrap/js/bootstrap.min.js"></script>
   <script src="http://d268cm0091e6xs.cloudfront.net/leaflet/leaflet-hash.js"></script>
   <script src="js/l.geosearch.mod.js"></script>
