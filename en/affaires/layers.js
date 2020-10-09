@@ -27,8 +27,8 @@
 	    }).addTo(map);
 
 		//Define the baselayer and add it to the map (normal terrain: dai.map-jfzz54yc)
-	    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-3xuspbkm/{z}/{x}/{y}.png', {
-	        attribution: 'MapBox'
+	    L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+	        attribution: 'Stamen'
 	    }).addTo(map);
 	
 		  var vertsTable = 'mec_business1';

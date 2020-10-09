@@ -27,12 +27,12 @@
 	    }).addTo(map);
 
 		//Define the baselayer and add it to the map (normal terrain: dai.map-jfzz54yc)
-	    L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-3xuspbkm/{z}/{x}/{y}.png', {
-	        attribution: 'MapBox'
+	    L.tileLayer('http://tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+	        attribution: 'Stamen'
 	    }).addTo(map);
 		
 		//Define the reference overlay (just roads and labels from Mapbox)
-	    var reference = L.tileLayer('http://a.tiles.mapbox.com/v3/landplanner.map-clhq1tp6/{z}/{x}/{y}.png', {
+	    var reference = L.tileLayer('http://tile.stamen.com/toner-labels/{z}/{x}/{y}.png', {
 	        attribution: 'Openstreetmap Contributors'
 	    });
 		
